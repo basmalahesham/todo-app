@@ -26,15 +26,14 @@ class _SplashViewState extends State<SplashView> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: const BoxDecoration(
-        image: DecorationImage(
-          image: AssetImage('assets/images/splash.png'),
-          fit: BoxFit.cover,
-        ),
-      ),
-      child: const Scaffold(
-        backgroundColor: Colors.transparent,
+    var mediaQuery = MediaQuery.sizeOf(context);
+    return Scaffold(
+      backgroundColor: Colors.transparent,
+      body: Image.asset(
+        'assets/images/splash.png',
+        height: mediaQuery.height,
+        width: mediaQuery.width,
+        fit: BoxFit.fill,
       ),
     );
   }
