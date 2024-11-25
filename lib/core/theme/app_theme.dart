@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class AppTheme {
-  static ThemeMode themeMode = ThemeMode.dark;
+  static ThemeMode themeMode = ThemeMode.light;
   static const Color primaryColor = Color(0xFF5D9CEC);
   static const Color lightColor = Color(0xFFDFECDB);
   static const Color darkColor = Color(0xFF060E1E);
@@ -10,6 +10,15 @@ class AppTheme {
   static ThemeData lightTheme = ThemeData(
     primaryColor: primaryColor,
     scaffoldBackgroundColor: lightColor,
+    floatingActionButtonTheme: const FloatingActionButtonThemeData(
+      backgroundColor: lightColor,
+      shape: StadiumBorder(
+        side: BorderSide(
+          color: Colors.white,
+          width: 3,
+        ),
+      ),
+    ),
     appBarTheme: const AppBarTheme(
       elevation: 0,
       backgroundColor: primaryColor,
@@ -54,6 +63,15 @@ class AppTheme {
   static ThemeData darkTheme = ThemeData(
     primaryColor: primaryColor,
     scaffoldBackgroundColor: darkColor,
+    floatingActionButtonTheme: FloatingActionButtonThemeData(
+      backgroundColor: darkColor,
+      shape: StadiumBorder(
+        side: BorderSide(
+          color: Colors.grey[800]!,
+          width: 3,
+        ),
+      ),
+    ),
     appBarTheme: const AppBarTheme(
       elevation: 0,
       backgroundColor: primaryColor,
