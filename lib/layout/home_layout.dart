@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:untitled3/moduls/settings/settings_view.dart';
+import 'package:untitled3/moduls/tasks_list/tasks_list_view.dart';
 
 class HomeLayoutView extends StatefulWidget {
   const HomeLayoutView({super.key});
@@ -11,7 +13,10 @@ class HomeLayoutView extends StatefulWidget {
 class _HomeLayoutViewState extends State<HomeLayoutView> {
   int selectedIndex = 0;
 
-  List<Widget> screens = [Container(), Container()];
+  List<Widget> screens = [
+    const TasksListView(),
+    const SettingsView(),
+  ];
 
   @override
   Widget build(BuildContext context) {
