@@ -2,6 +2,7 @@ import 'package:calendar_timeline/calendar_timeline.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:untitled3/core/theme/app_theme.dart';
+import 'package:untitled3/moduls/tasks_list/widgets/task_item_widget.dart';
 
 class TasksListView extends StatefulWidget {
   const TasksListView({super.key});
@@ -47,6 +48,13 @@ class _TasksListViewState extends State<TasksListView> {
           activeDayColor: AppTheme.primaryColor,
           activeBackgroundDayColor: Colors.white,
           dotColor: AppTheme.primaryColor,
+        ),
+        Expanded(
+          child: ListView.builder(
+            padding: const EdgeInsets.only(top: 10),
+            itemBuilder: (context, index) => const TaskItemWidget(),
+            itemCount: 10,
+          ),
         ),
       ],
     );

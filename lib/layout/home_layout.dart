@@ -33,6 +33,7 @@ class _HomeLayoutViewState extends State<HomeLayoutView> {
         ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      extendBody: true,
       bottomNavigationBar: BottomAppBar(
         height: mediaQuery.height * .093,
         padding: EdgeInsets.zero,
