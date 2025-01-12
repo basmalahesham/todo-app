@@ -19,6 +19,7 @@ class AppTheme {
         ),
       ),
     ),
+/*
     appBarTheme: const AppBarTheme(
       elevation: 0,
       backgroundColor: primaryColor,
@@ -28,6 +29,7 @@ class AppTheme {
         fontWeight: FontWeight.bold,
       ),
     ),
+*/
     bottomNavigationBarTheme: const BottomNavigationBarThemeData(
       elevation: 0,
       backgroundColor: Colors.transparent,
@@ -72,6 +74,7 @@ class AppTheme {
         ),
       ),
     ),
+/*
     appBarTheme: const AppBarTheme(
       elevation: 0,
       backgroundColor: primaryColor,
@@ -81,6 +84,7 @@ class AppTheme {
         fontWeight: FontWeight.bold,
       ),
     ),
+*/
     bottomNavigationBarTheme: const BottomNavigationBarThemeData(
       elevation: 0,
       backgroundColor: Colors.transparent,
