@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:untitled3/layout/widgets/show_add_task_bottom_sheet.dart';
 import 'package:untitled3/moduls/settings/settings_view.dart';
 import 'package:untitled3/moduls/tasks_list/tasks_list_view.dart';
 
@@ -24,7 +25,9 @@ class _HomeLayoutViewState extends State<HomeLayoutView> {
     return Scaffold(
       body: screens[selectedIndex],
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
+        onPressed: () {
+          showAddTasksBottomSheet();
+        },
         elevation: 5,
         tooltip: 'Increment',
         child: const Icon(
@@ -57,4 +60,18 @@ class _HomeLayoutViewState extends State<HomeLayoutView> {
       ),
     );
   }
+  showAddTasksBottomSheet() {
+    showModalBottomSheet(
+      context: context,
+      //isScrollControlled: true,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(20),
+          topRight: Radius.circular(20),
+        ),
+      ),
+      builder: (context) => const AddTaskBottomSheet(),
+    );
+  }
+
 }
