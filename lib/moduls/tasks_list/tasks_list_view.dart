@@ -1,6 +1,6 @@
 import 'package:calendar_timeline/calendar_timeline.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
+import 'package:untitled3/core/network_layer/firestore_utils.dart';
 import 'package:untitled3/core/theme/app_theme.dart';
 import 'package:untitled3/moduls/tasks_list/widgets/task_item_widget.dart';
 
@@ -16,22 +16,18 @@ class _TasksListViewState extends State<TasksListView> {
 
   @override
   Widget build(BuildContext context) {
-    var mediaQuery = MediaQuery.sizeOf(context);
+    var mediaQuery = MediaQuery.of(context).size;
     return Column(
       children: [
         Container(
+          alignment: Alignment.centerLeft,
+          padding: const EdgeInsets.only(top: 40, left: 20),
           width: mediaQuery.width,
           height: mediaQuery.height * 0.15,
           color: AppTheme.primaryColor,
-          alignment: Alignment.centerLeft,
-          padding: const EdgeInsets.only(top: 40, left: 20),
           child: Text(
             'To Do List',
-            style: GoogleFonts.poppins(
-              fontWeight: FontWeight.bold,
-              fontSize: 22,
-              color: Colors.white,
-            ),
+            style: Theme.of(context).textTheme.headlineMedium,
           ),
         ),
         CalendarTimeline(
@@ -50,10 +46,29 @@ class _TasksListViewState extends State<TasksListView> {
           dotColor: AppTheme.primaryColor,
         ),
         Expanded(
-          child: ListView.builder(
-            padding: const EdgeInsets.only(top: 10),
-            itemBuilder: (context, index) => const TaskItemWidget(),
-            itemCount: 10,
+          child: StreamBuilder(
+            stream: FirestoreUtils.getRealTimeDataFromFirestore(selectedDate),
+            builder: (context, snapshot) {
+              if (snapshot.hasError) {
+                return const Text('Error Eccoured');
+              } else if (snapshot.connectionState == ConnectionState.waiting) {
+                return const Center(
+                  child: CircularProgressIndicator(
+                    color: AppTheme.primaryColor,
+                  ),
+                );
+              }
+              var tasksList = snapshot.data?.docs.map((e) => e.data()).toList();
+              return ListView.builder(
+                padding: const EdgeInsets.only(
+                  top: 10,
+                ),
+                itemBuilder: (context, index) => TaskItemWidget(
+                  model: tasksList![index],
+                ),
+                itemCount: tasksList?.length ?? 0,
+              );
+            },
           ),
         ),
       ],
