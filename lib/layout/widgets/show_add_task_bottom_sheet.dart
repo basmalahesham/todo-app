@@ -19,7 +19,7 @@ class _AddTaskBottomSheetState extends State<AddTaskBottomSheet> {
   var formKey = GlobalKey<FormState>();
   TextEditingController titleController = TextEditingController();
   TextEditingController descriptionController = TextEditingController();
-
+  //var valid = true;
   //TextEditingController dueDateController = TextEditingController();
   DateTime selectedDate = DateTime.now();
 
@@ -199,7 +199,31 @@ class _AddTaskBottomSheetState extends State<AddTaskBottomSheet> {
                   ),
                   onPressed: () {
                     addTask();
-                    Navigator.pop(context);
+                    /* if (formKey.currentState!.validate()) {
+                      setState(
+                            () => valid = true,
+                      );
+                      EasyLoading.show();
+                      FirestoreUtils.addTask(
+                        TaskModel(
+                          title: titleController.text,
+                          description: descriptionController.text,
+                          isDone: false,
+                          dateTime:
+                          (MyDateTime.externalDateOnly(selectedDate)).millisecondsSinceEpoch,
+                        ),
+                      ).then(
+                            (value) {
+                          //provider.changeDate(selectedDate);
+                          Navigator.pop(context);
+                          EasyLoading.dismiss();
+                        },
+                      );
+                    } else {
+                      setState(
+                            () => valid = false,
+                      );
+                    }*/
                   },
                   child: Text(
                     "Add Task",
@@ -243,12 +267,10 @@ class _AddTaskBottomSheetState extends State<AddTaskBottomSheet> {
         isDone: false,
         dateTime:
             (MyDateTime.externalDateOnly(selectedDate)).millisecondsSinceEpoch,
-        //dateTime: selectedDate.millisecondsSinceEpoch,
-        //dateTime: MyDateTime.externalDateOnly(selectedDate),
       );
-
       try {
         EasyLoading.show();
+        setState(() {});
         await FirestoreUtils.addTask(taskModel);
         EasyLoading.dismiss();
         SnackBarService.showSuccessMessage('Task added successfully');
