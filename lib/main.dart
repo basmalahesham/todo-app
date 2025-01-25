@@ -6,6 +6,8 @@ import 'package:provider/provider.dart';
 import 'package:untitled3/core/services/loading_service.dart';
 import 'package:untitled3/core/theme/app_theme.dart';
 import 'package:untitled3/layout/home_layout.dart';
+import 'package:untitled3/moduls/login/login_view.dart';
+import 'package:untitled3/moduls/register/register_view.dart';
 import 'package:untitled3/moduls/splash/splash_view.dart';
 import 'package:untitled3/provider/settings_provider.dart';
 import 'firebase_options.dart';
@@ -35,7 +37,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     var provider = Provider.of<SettingsProvider>(context);
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'TodoApp',
       debugShowCheckedModeBanner: false,
       theme: AppTheme.lightTheme,
       darkTheme: AppTheme.darkTheme,
@@ -47,8 +49,8 @@ class MyApp extends StatelessWidget {
       routes: {
         SplashView.routeName: (context) => const SplashView(),
         HomeLayoutView.routeName: (context) => const HomeLayoutView(),
-        // RegisterScreen.routeName: (context) => RegisterScreen(),
-        // LoginScreen.routeName: (context) => LoginScreen(),
+        RegisterView.routeName: (context) => const RegisterView(),
+        LoginView.routeName: (context) => const LoginView(),
         // EditScreen.routeName: (context) => EditScreen(),
       },
       builder: EasyLoading.init(

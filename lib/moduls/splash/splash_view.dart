@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:untitled3/layout/home_layout.dart';
+import 'package:untitled3/moduls/login/login_view.dart';
 
 class SplashView extends StatefulWidget {
   const SplashView({super.key});
@@ -19,7 +19,7 @@ class _SplashViewState extends State<SplashView> {
         const Duration(
           seconds: 2,
         ), () {
-      Navigator.of(context).pushReplacementNamed(HomeLayoutView.routeName);
+      Navigator.of(context).pushReplacementNamed(LoginView.routeName);
     });
     super.initState();
   }

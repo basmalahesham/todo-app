@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
+import 'package:untitled3/moduls/login/login_view.dart';
 import 'package:untitled3/moduls/settings/theme_bottom_sheet.dart';
 
 import '../../core/theme/app_theme.dart';
@@ -137,7 +138,7 @@ class _SettingsViewState extends State<SettingsView> {
                   padding: const EdgeInsets.symmetric(vertical: 30.0),
                   child: ElevatedButton(
                     onPressed: () {
-                      // Navigator.pushNamed(context, LoginScreen.routeName);
+                       Navigator.pushNamed(context, LoginView.routeName);
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: AppTheme.primaryColor,
