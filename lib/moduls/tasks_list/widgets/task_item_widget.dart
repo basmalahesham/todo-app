@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 import 'package:untitled3/core/network_layer/firestore_utils.dart';
 import 'package:untitled3/core/theme/app_theme.dart';
 import 'package:untitled3/models/task_model.dart';
+import 'package:untitled3/moduls/edit/edit_view.dart';
 import 'package:untitled3/provider/settings_provider.dart';
 
 class TaskItemWidget extends StatefulWidget {
@@ -54,8 +55,11 @@ class _TaskItemWidgetState extends State<TaskItemWidget> {
               icon: Icons.edit,
               label: 'Edit',
               onPressed: (context) {
-                // Navigator.pushNamed(context, EditScreen.routeName,
-                //     arguments: widget.model);
+                Navigator.pushNamed(
+                  context,
+                  EditView.routeName,
+                  arguments: widget.model,
+                );
               },
             ),
           ],

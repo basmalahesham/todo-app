@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 import 'package:untitled3/core/services/loading_service.dart';
 import 'package:untitled3/core/theme/app_theme.dart';
 import 'package:untitled3/layout/home_layout.dart';
+import 'package:untitled3/moduls/edit/edit_view.dart';
 import 'package:untitled3/moduls/login/login_view.dart';
 import 'package:untitled3/moduls/register/register_view.dart';
 import 'package:untitled3/moduls/splash/splash_view.dart';
@@ -51,7 +52,7 @@ class MyApp extends StatelessWidget {
         HomeLayoutView.routeName: (context) => const HomeLayoutView(),
         RegisterView.routeName: (context) => const RegisterView(),
         LoginView.routeName: (context) => const LoginView(),
-        // EditScreen.routeName: (context) => EditScreen(),
+        EditView.routeName: (context) => const EditView(),
       },
       builder: EasyLoading.init(
         builder: BotToastInit(),
