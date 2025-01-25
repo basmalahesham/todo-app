@@ -264,6 +264,7 @@ class _EditViewState extends State<EditView> {
                     style: GoogleFonts.poppins(
                       fontWeight: FontWeight.bold,
                       fontSize: 18,
+                      color: Colors.white,
                     ),
                   ),
                 ),

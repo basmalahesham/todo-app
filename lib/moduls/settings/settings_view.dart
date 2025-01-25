@@ -151,6 +151,7 @@ class _SettingsViewState extends State<SettingsView> {
                       style: GoogleFonts.poppins(
                         fontSize: 18,
                         fontWeight: FontWeight.bold,
+                        color: Colors.white,
                       ),
                     ),
                   ),
