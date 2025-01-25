@@ -2,11 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 import 'package:untitled3/core/network_layer/firestore_utils.dart';
 import 'package:untitled3/core/services/snackbar_service.dart';
 import 'package:untitled3/core/theme/app_theme.dart';
 import 'package:untitled3/core/utils/my_date_time.dart';
 import 'package:untitled3/models/task_model.dart';
+import 'package:untitled3/provider/settings_provider.dart';
 
 class AddTaskBottomSheet extends StatefulWidget {
   const AddTaskBottomSheet({super.key});
@@ -19,17 +21,18 @@ class _AddTaskBottomSheetState extends State<AddTaskBottomSheet> {
   var formKey = GlobalKey<FormState>();
   TextEditingController titleController = TextEditingController();
   TextEditingController descriptionController = TextEditingController();
-  //var valid = true;
+
   //TextEditingController dueDateController = TextEditingController();
   DateTime selectedDate = DateTime.now();
 
   @override
   Widget build(BuildContext context) {
     var mediaQuery = MediaQuery.of(context).size;
+    var provider = Provider.of<SettingsProvider>(context);
     return Container(
-      decoration: const BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.only(
+      decoration: BoxDecoration(
+        color: provider.isDark() ? const Color(0xFF141922) : Colors.white,
+        borderRadius: const BorderRadius.only(
           topLeft: Radius.circular(20),
           topRight: Radius.circular(20),
         ),
@@ -49,7 +52,7 @@ class _AddTaskBottomSheetState extends State<AddTaskBottomSheet> {
                   style: GoogleFonts.poppins(
                     fontWeight: FontWeight.bold,
                     fontSize: 18,
-                    color: Colors.black,
+                    color: provider.isDark() ? Colors.white : Colors.black,
                   ),
                 ),
                 SizedBox(
@@ -60,7 +63,7 @@ class _AddTaskBottomSheetState extends State<AddTaskBottomSheet> {
                   style: GoogleFonts.poppins(
                     fontWeight: FontWeight.bold,
                     fontSize: 17,
-                    color: Colors.black,
+                    color: provider.isDark() ? Colors.white : Colors.black,
                   ),
                 ),
                 SizedBox(
@@ -78,14 +81,9 @@ class _AddTaskBottomSheetState extends State<AddTaskBottomSheet> {
                     }
                   },
                   decoration: InputDecoration(
-                    /*labelText: 'Title',
-                    labelStyle: GoogleFonts.poppins(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 17,
-                    ),*/
                     hintText: 'Enter Your Task Title',
-                    hintStyle: const TextStyle(
-                      color: Colors.black,
+                    hintStyle: TextStyle(
+                      color: provider.isDark() ? Colors.white : Colors.black,
                     ),
                     focusedBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(10),
@@ -115,7 +113,7 @@ class _AddTaskBottomSheetState extends State<AddTaskBottomSheet> {
                   style: GoogleFonts.poppins(
                     fontWeight: FontWeight.bold,
                     fontSize: 17,
-                    color: Colors.black,
+                    color: provider.isDark() ? Colors.white : Colors.black,
                   ),
                 ),
                 SizedBox(
@@ -133,14 +131,9 @@ class _AddTaskBottomSheetState extends State<AddTaskBottomSheet> {
                   minLines: 2,
                   maxLines: 2,
                   decoration: InputDecoration(
-                    /*labelText: 'Description',
-                    labelStyle: GoogleFonts.poppins(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 17,
-                    ),*/
                     hintText: 'Enter Your Task Description',
-                    hintStyle: const TextStyle(
-                      color: Colors.black,
+                    hintStyle: TextStyle(
+                      color: provider.isDark() ? Colors.white : Colors.black,
                     ),
                     focusedBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(10),
@@ -172,7 +165,7 @@ class _AddTaskBottomSheetState extends State<AddTaskBottomSheet> {
                       style: GoogleFonts.poppins(
                         fontWeight: FontWeight.bold,
                         fontSize: 17,
-                        color: Colors.black,
+                        color: provider.isDark() ? Colors.white : Colors.black,
                       ),
                     ),
                     InkWell(
@@ -199,31 +192,6 @@ class _AddTaskBottomSheetState extends State<AddTaskBottomSheet> {
                   ),
                   onPressed: () {
                     addTask();
-                    /* if (formKey.currentState!.validate()) {
-                      setState(
-                            () => valid = true,
-                      );
-                      EasyLoading.show();
-                      FirestoreUtils.addTask(
-                        TaskModel(
-                          title: titleController.text,
-                          description: descriptionController.text,
-                          isDone: false,
-                          dateTime:
-                          (MyDateTime.externalDateOnly(selectedDate)).millisecondsSinceEpoch,
-                        ),
-                      ).then(
-                            (value) {
-                          //provider.changeDate(selectedDate);
-                          Navigator.pop(context);
-                          EasyLoading.dismiss();
-                        },
-                      );
-                    } else {
-                      setState(
-                            () => valid = false,
-                      );
-                    }*/
                   },
                   child: Text(
                     "Add Task",
@@ -267,10 +235,11 @@ class _AddTaskBottomSheetState extends State<AddTaskBottomSheet> {
         isDone: false,
         dateTime:
             (MyDateTime.externalDateOnly(selectedDate)).millisecondsSinceEpoch,
+        //dateTime: selectedDate.millisecondsSinceEpoch,
+        //dateTime: MyDateTime.externalDateOnly(selectedDate),
       );
       try {
         EasyLoading.show();
-        setState(() {});
         await FirestoreUtils.addTask(taskModel);
         EasyLoading.dismiss();
         SnackBarService.showSuccessMessage('Task added successfully');

@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:untitled3/layout/widgets/show_add_task_bottom_sheet.dart';
 import 'package:untitled3/moduls/settings/settings_view.dart';
 import 'package:untitled3/moduls/tasks_list/tasks_list_view.dart';
+import 'package:untitled3/provider/settings_provider.dart';
 
 class HomeLayoutView extends StatefulWidget {
   const HomeLayoutView({super.key});
@@ -21,6 +23,7 @@ class _HomeLayoutViewState extends State<HomeLayoutView> {
 
   @override
   Widget build(BuildContext context) {
+    var provider = Provider.of<SettingsProvider>(context);
     var mediaQuery = MediaQuery.sizeOf(context);
     return Scaffold(
       body: screens[selectedIndex],
@@ -41,7 +44,7 @@ class _HomeLayoutViewState extends State<HomeLayoutView> {
         height: mediaQuery.height * .093,
         padding: EdgeInsets.zero,
         notchMargin: 8,
-        color: Colors.white,
+        color: provider.isDark() ? const Color(0xFF141922) : Colors.white,
         shape: const CircularNotchedRectangle(),
         elevation: 0,
         child: BottomNavigationBar(
@@ -60,6 +63,7 @@ class _HomeLayoutViewState extends State<HomeLayoutView> {
       ),
     );
   }
+
   showAddTasksBottomSheet() {
     showModalBottomSheet(
       context: context,
@@ -73,5 +77,4 @@ class _HomeLayoutViewState extends State<HomeLayoutView> {
       builder: (context) => const AddTaskBottomSheet(),
     );
   }
-
 }
