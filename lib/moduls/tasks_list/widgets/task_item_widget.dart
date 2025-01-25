@@ -2,12 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 import 'package:untitled3/core/network_layer/firestore_utils.dart';
 import 'package:untitled3/core/theme/app_theme.dart';
 import 'package:untitled3/models/task_model.dart';
+import 'package:untitled3/provider/settings_provider.dart';
 
 class TaskItemWidget extends StatefulWidget {
   final TaskModel model;
+
+  // final String title;
+  // final String description;
   const TaskItemWidget({super.key, required this.model});
 
   @override
@@ -19,6 +24,7 @@ class _TaskItemWidgetState extends State<TaskItemWidget> {
 
   @override
   Widget build(BuildContext context) {
+    var provider = Provider.of<SettingsProvider>(context);
     return Container(
       margin: const EdgeInsets.symmetric(
         horizontal: 20,
@@ -59,9 +65,9 @@ class _TaskItemWidgetState extends State<TaskItemWidget> {
             horizontal: 25,
             vertical: 20,
           ),
-          decoration: const BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.only(
+          decoration: BoxDecoration(
+            color: provider.isDark() ? const Color(0xFF141922) : Colors.white,
+            borderRadius: const BorderRadius.only(
               bottomRight: Radius.circular(15),
               topRight: Radius.circular(15),
             ),
@@ -101,17 +107,17 @@ class _TaskItemWidgetState extends State<TaskItemWidget> {
                   Text(
                     widget.model.description ?? '',
                     style: GoogleFonts.poppins(
-                      color: Colors.black,
+                      color: provider.isDark() ? Colors.white : Colors.black,
                       fontSize: 15,
                       fontWeight: FontWeight.w500,
                     ),
                   ),
                   Row(
                     children: [
-                      const Icon(
+                      Icon(
                         Icons.timer_outlined,
                         size: 20,
-                        color: Colors.black,
+                        color: provider.isDark() ? Colors.white : Colors.black,
                       ),
                       const SizedBox(
                         width: 4,
@@ -119,7 +125,8 @@ class _TaskItemWidgetState extends State<TaskItemWidget> {
                       Text(
                         (DateFormat.yMMMEd().format(selectedDate)),
                         style: GoogleFonts.roboto(
-                          color: Colors.black,
+                          color:
+                              provider.isDark() ? Colors.white : Colors.black,
                           fontSize: 12,
                           fontWeight: FontWeight.normal,
                         ),

@@ -1,8 +1,11 @@
 import 'package:calendar_timeline/calendar_timeline.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:untitled3/core/network_layer/firestore_utils.dart';
 import 'package:untitled3/core/theme/app_theme.dart';
 import 'package:untitled3/moduls/tasks_list/widgets/task_item_widget.dart';
+import 'package:untitled3/provider/settings_provider.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class TasksListView extends StatefulWidget {
   const TasksListView({super.key});
@@ -16,6 +19,7 @@ class _TasksListViewState extends State<TasksListView> {
 
   @override
   Widget build(BuildContext context) {
+    var provider = Provider.of<SettingsProvider>(context);
     var mediaQuery = MediaQuery.of(context).size;
     return Column(
       children: [
@@ -26,7 +30,7 @@ class _TasksListViewState extends State<TasksListView> {
           height: mediaQuery.height * 0.15,
           color: AppTheme.primaryColor,
           child: Text(
-            'To Do List',
+            AppLocalizations.of(context)!.todolist,
             style: Theme.of(context).textTheme.headlineMedium,
           ),
         ),
@@ -39,11 +43,13 @@ class _TasksListViewState extends State<TasksListView> {
             setState(() {});
           },
           leftMargin: 20,
-          monthColor: Colors.black,
-          dayColor: Colors.black,
-          activeDayColor: AppTheme.primaryColor,
-          activeBackgroundDayColor: Colors.white,
-          dotColor: AppTheme.primaryColor,
+          monthColor: provider.isDark() ? Colors.white : Colors.black,
+          dayColor: provider.isDark() ? Colors.white : Colors.black,
+          activeDayColor:
+              provider.isDark() ? Colors.white : AppTheme.primaryColor,
+          activeBackgroundDayColor:
+              provider.isDark() ? const Color(0xFF141922) : Colors.white,
+          dotColor: provider.isDark() ? Colors.white : AppTheme.primaryColor,
         ),
         Expanded(
           child: StreamBuilder(
