@@ -2,9 +2,12 @@ import 'package:bot_toast/bot_toast.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:provider/provider.dart';
+import 'package:untitled3/core/services/loading_service.dart';
 import 'package:untitled3/core/theme/app_theme.dart';
 import 'package:untitled3/layout/home_layout.dart';
 import 'package:untitled3/moduls/splash/splash_view.dart';
+import 'package:untitled3/provider/settings_provider.dart';
 import 'firebase_options.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -13,7 +16,15 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  runApp(const MyApp());
+  runApp(
+    ChangeNotifierProvider(
+      create: (context) => SettingsProvider()
+        ..getTheme()
+        ..getLanguage(),
+      child: const MyApp(),
+    ),
+  );
+  configLoading();
 }
 
 class MyApp extends StatelessWidget {
@@ -22,15 +33,23 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    var provider = Provider.of<SettingsProvider>(context);
     return MaterialApp(
+      title: 'Flutter Demo',
       debugShowCheckedModeBanner: false,
       theme: AppTheme.lightTheme,
+      darkTheme: AppTheme.darkTheme,
+      themeMode: provider.currentTheme,
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       supportedLocales: AppLocalizations.supportedLocales,
+      locale: Locale(provider.currentLocal),
       initialRoute: SplashView.routeName,
       routes: {
         SplashView.routeName: (context) => const SplashView(),
         HomeLayoutView.routeName: (context) => const HomeLayoutView(),
+        // RegisterScreen.routeName: (context) => RegisterScreen(),
+        // LoginScreen.routeName: (context) => LoginScreen(),
+        // EditScreen.routeName: (context) => EditScreen(),
       },
       builder: EasyLoading.init(
         builder: BotToastInit(),
