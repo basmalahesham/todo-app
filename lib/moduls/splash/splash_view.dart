@@ -1,7 +1,9 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:untitled3/moduls/login/login_view.dart';
+import 'package:untitled3/provider/settings_provider.dart';
 
 class SplashView extends StatefulWidget {
   const SplashView({super.key});
@@ -26,11 +28,12 @@ class _SplashViewState extends State<SplashView> {
 
   @override
   Widget build(BuildContext context) {
-    var mediaQuery = MediaQuery.sizeOf(context);
+    var provider = Provider.of<SettingsProvider>(context);
+    var mediaQuery = MediaQuery.of(context).size;
     return Scaffold(
       backgroundColor: Colors.transparent,
       body: Image.asset(
-        'assets/images/splash.png',
+        provider.getMainSplash(),
         height: mediaQuery.height,
         width: mediaQuery.width,
         fit: BoxFit.fill,
