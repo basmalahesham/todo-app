@@ -170,11 +170,6 @@ class _EditViewState extends State<EditView> {
                   minLines: 3,
                   maxLines: 3,
                   decoration: InputDecoration(
-                    /*labelText: 'Description',
-                labelStyle: GoogleFonts.poppins(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 17,
-                ),*/
                     hintText: 'Enter Your Task Description',
                     hintStyle: TextStyle(
                       color: provider.isDark() ? Colors.white : Colors.black,
@@ -256,6 +251,7 @@ class _EditViewState extends State<EditView> {
                 ElevatedButton(
                   onPressed: () {
                     FirestoreUtils.updateTask(args);
+                    Navigator.pop(context);
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: AppTheme.primaryColor,
