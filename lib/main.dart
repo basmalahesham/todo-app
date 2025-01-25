@@ -6,6 +6,7 @@ import 'package:untitled3/core/theme/app_theme.dart';
 import 'package:untitled3/layout/home_layout.dart';
 import 'package:untitled3/moduls/splash/splash_view.dart';
 import 'firebase_options.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -24,6 +25,8 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: AppTheme.lightTheme,
+      localizationsDelegates: AppLocalizations.localizationsDelegates,
+      supportedLocales: AppLocalizations.supportedLocales,
       initialRoute: SplashView.routeName,
       routes: {
         SplashView.routeName: (context) => const SplashView(),
