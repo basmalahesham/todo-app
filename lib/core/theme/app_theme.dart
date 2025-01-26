@@ -19,17 +19,14 @@ class AppTheme {
         ),
       ),
     ),
-/*
     appBarTheme: const AppBarTheme(
       elevation: 0,
-      backgroundColor: primaryColor,
-      centerTitle: false,
-      titleTextStyle: TextStyle(
-        fontSize: 22,
-        fontWeight: FontWeight.bold,
+      backgroundColor: Colors.transparent,
+      centerTitle: true,
+      iconTheme: IconThemeData(
+        color: Colors.white,
       ),
     ),
-*/
     bottomNavigationBarTheme: const BottomNavigationBarThemeData(
       elevation: 0,
       backgroundColor: Colors.transparent,

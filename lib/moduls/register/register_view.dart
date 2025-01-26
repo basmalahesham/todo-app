@@ -37,195 +37,193 @@ class _RegisterViewState extends State<RegisterView> {
   Widget build(BuildContext context) {
     var provider = Provider.of<SettingsProvider>(context);
     var mediaQuery = MediaQuery.of(context).size;
-    return Scaffold(
-      resizeToAvoidBottomInset: false,
-      body: Container(
-        padding: EdgeInsets.only(
-          top: mediaQuery.height * 0.07,
-          left: 20,
-          right: 20,
+    return Container(
+      decoration: const BoxDecoration(
+        color: Color(0xFFDFECDB),
+        image: DecorationImage(
+          image: AssetImage(
+            'assets/images/SIGN IN – 1.png',
+          ),
+          fit: BoxFit.cover,
         ),
-        alignment: Alignment.center,
-        width: double.infinity,
-        height: double.infinity,
-        decoration: const BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage(
-              'assets/images/SIGN IN – 1.png',
+      ),
+      child: Scaffold(
+        backgroundColor: Colors.transparent,
+        appBar: AppBar(
+          leading: IconButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            icon: const Icon(
+              Icons.arrow_back,
+              size: 30,
+              color: Colors.white,
             ),
-            fit: BoxFit.cover,
+          ),
+          title: Text(
+            'Create Account',
+            style: GoogleFonts.poppins(
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+              color: Colors.white,
+            ),
           ),
         ),
-        child: Form(
-          key: formKey,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Expanded(
-                    flex: 1,
-                    child: IconButton(
-                      onPressed: () {
-                        Navigator.pop(context);
-                      },
-                      icon: const Icon(
-                        Icons.arrow_back,
-                        size: 32,
-                        color: Colors.white,
+        body: CustomScrollView(
+          slivers: [
+            SliverToBoxAdapter(
+              child: Padding(
+                padding: EdgeInsets.only(
+                  top: mediaQuery.height * 0.03,
+                  left: 20,
+                  right: 20,
+                ),
+                child: Form(
+                  key: formKey,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      SizedBox(
+                        height: mediaQuery.height * 0.2,
                       ),
-                    ),
-                  ),
-                  SizedBox(
-                    width: mediaQuery.width * 0.18,
-                  ),
-                  Expanded(
-                    flex: 5,
-                    child: Text(
-                      'Create Account',
-                      style: GoogleFonts.poppins(
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white,
+                      CustomTextFormField(
+                        controller: nameController,
+                        label: 'Full Name',
+                        hint: 'Enter your Full Name',
+                        validator: (value) {
+                          if (value == null || value.trim().isEmpty) {
+                            return 'Please enter your name';
+                          }
+                          if (value.trim().length < 6) {
+                            return 'your name must be at least 6 characters';
+                          }
+                          return null;
+                        },
+                        /*onChanged: (value){
+                    name = value;
+                    print(name);
+                  },*/
                       ),
-                    ),
-                  ),
-                ],
-              ),
-              SizedBox(
-                height: mediaQuery.height * 0.2,
-              ),
-              CustomTextFormField(
-                controller: nameController,
-                label: 'Full Name',
-                hint: 'Enter your Full Name',
-                validator: (value) {
-                  if (value == null || value.trim().isEmpty) {
-                    return 'Please enter your name';
-                  }
-                  if (value.trim().length < 6) {
-                    return 'your name must be at least 6 characters';
-                  }
-                  return null;
-                },
-                /*onChanged: (value){
-                  name = value;
-                  print(name);
-                },*/
-              ),
-              CustomTextFormField(
-                controller: emailController,
-                label: 'Email Address',
-                hint: 'Enter your email address',
-                validator: (value) {
-                  if (value == null || value.trim().isEmpty) {
-                    return 'Please enter your email address';
-                  }
-                  var regex = RegExp(
-                      r"(^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9]+\.[a-zA-Z0-9-.]+$)");
-                  if (!regex.hasMatch(value)) {
-                    return 'enter a valid email address';
-                  }
-                  return null;
-                },
-              ),
-              CustomTextFormField(
-                controller: passwordController,
-                label: 'Password',
-                hint: 'Enter your Password',
-                obscureText: isObscure,
-                suffixIcon: IconButton(
-                  onPressed: () {
-                    isObscure = !isObscure;
-                    setState(() {});
-                  },
-                  icon: Icon(
-                    isObscure ? Icons.visibility_off : Icons.visibility,
+                      CustomTextFormField(
+                        controller: emailController,
+                        label: 'Email Address',
+                        hint: 'Enter your email address',
+                        validator: (value) {
+                          if (value == null || value.trim().isEmpty) {
+                            return 'Please enter your email address';
+                          }
+                          var regex = RegExp(
+                              r"(^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9]+\.[a-zA-Z0-9-.]+$)");
+                          if (!regex.hasMatch(value)) {
+                            return 'enter a valid email address';
+                          }
+                          return null;
+                        },
+                      ),
+                      CustomTextFormField(
+                        controller: passwordController,
+                        label: 'Password',
+                        hint: 'Enter your Password',
+                        obscureText: isObscure,
+                        suffixIcon: IconButton(
+                          onPressed: () {
+                            isObscure = !isObscure;
+                            setState(() {});
+                          },
+                          icon: Icon(
+                            isObscure ? Icons.visibility_off : Icons.visibility,
+                          ),
+                        ),
+                        validator: (value) {
+                          if (value == null || value.trim().isEmpty) {
+                            return 'Please enter your password';
+                          }
+                          var regex = RegExp(
+                              r"(?=^.{8,}$)(?=.*[!@#$%^&*]+)(?![.\\n])(?=.*[A-Z])(?=.*[a-z]).*$");
+                          if (!regex.hasMatch(value)) {
+                            return 'enter a valid password';
+                          }
+                          return null;
+                        },
+                      ),
+                      CustomTextFormField(
+                        controller: confirmPasswordController,
+                        label: 'Confirm Password',
+                        hint: 'Enter your confirmation password',
+                        obscureText: isObscure,
+                        suffixIcon: IconButton(
+                          onPressed: () {
+                            isObscure = !isObscure;
+                            setState(() {});
+                          },
+                          icon: Icon(
+                            isObscure ? Icons.visibility_off : Icons.visibility,
+                          ),
+                        ),
+                        validator: (value) {
+                          if (value == null || value.trim().isEmpty) {
+                            return 'Please enter your confirmation password';
+                          }
+                          if (passwordController.text != value) {
+                            return 'enter correct password, password not match';
+                          }
+                          return null;
+                        },
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 30.0),
+                        child: ElevatedButton(
+                          onPressed: () {
+                            register();
+                          },
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: AppTheme.primaryColor,
+                            padding: const EdgeInsets.symmetric(
+                              vertical: 15,
+                            ),
+                          ),
+                          child: Text(
+                            'Register',
+                            style: GoogleFonts.poppins(
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white,
+                            ),
+                          ),
+                        ),
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            "Already have an account?.",
+                            style: TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.normal,
+                              color: provider.isDark() ? Colors.white : Colors.black,
+                            ),
+                          ),
+                          TextButton(
+                            onPressed: () {
+                              Navigator.pushNamed(context, LoginView.routeName);
+                            },
+                            child: const Text(
+                              'Login',
+                              style: TextStyle(
+                                fontSize: 16,
+                                color: AppTheme.primaryColor,
+                                fontWeight: FontWeight.normal,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
                   ),
                 ),
-                validator: (value) {
-                  if (value == null || value.trim().isEmpty) {
-                    return 'Please enter your password';
-                  }
-                  var regex = RegExp(
-                      r"(?=^.{8,}$)(?=.*[!@#$%^&*]+)(?![.\\n])(?=.*[A-Z])(?=.*[a-z]).*$");
-                  if (!regex.hasMatch(value)) {
-                    return 'enter a valid password';
-                  }
-                  return null;
-                },
               ),
-              CustomTextFormField(
-                controller: confirmPasswordController,
-                label: 'Confirm Password',
-                hint: 'Enter your confirmation password',
-                obscureText: isObscure,
-                suffixIcon: IconButton(
-                  onPressed: () {
-                    isObscure = !isObscure;
-                    setState(() {});
-                  },
-                  icon: Icon(
-                    isObscure ? Icons.visibility_off : Icons.visibility,
-                  ),
-                ),
-                validator: (value) {
-                  if (value == null || value.trim().isEmpty) {
-                    return 'Please enter your confirmation password';
-                  }
-                  if (passwordController.text != value) {
-                    return 'enter correct password, password not match';
-                  }
-                  return null;
-                },
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 30.0),
-                child: ElevatedButton(
-                  onPressed: () {
-                    register();
-                  },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: AppTheme.primaryColor,
-                    padding: const EdgeInsets.symmetric(
-                      vertical: 15,
-                    ),
-                  ),
-                  child: Text(
-                    'Register',
-                    style: GoogleFonts.poppins(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    "Already have an account?.",
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.normal,
-                      color: provider.isDark() ? Colors.white : Colors.black,
-                    ),
-                  ),
-                  TextButton(
-                    onPressed: () {
-                      Navigator.pushNamed(context, LoginView.routeName);
-                    },
-                    child: const Text(
-                      'Login',
-                      style:
-                          TextStyle(fontSize: 16, color: AppTheme.primaryColor),
-                    ),
-                  ),
-                ],
-              ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );

@@ -1,7 +1,6 @@
 import 'dart:developer';
 
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -34,144 +33,159 @@ class _LoginViewState extends State<LoginView> {
   Widget build(BuildContext context) {
     var provider = Provider.of<SettingsProvider>(context);
     var mediaQuery = MediaQuery.of(context).size;
-    return Scaffold(
-      resizeToAvoidBottomInset: false,
-      body: Container(
-        padding: EdgeInsets.only(
-          top: mediaQuery.height * 0.09,
-          left: 20,
-          right: 20,
+    return Container(
+      decoration: const BoxDecoration(
+        color: Color(0xFFDFECDB),
+        image: DecorationImage(
+          image: AssetImage(
+            'assets/images/SIGN IN – 1.png',
+          ),
+          fit: BoxFit.cover,
         ),
-        alignment: Alignment.center,
-        width: double.infinity,
-        height: double.infinity,
-        decoration: const BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage(
-              'assets/images/SIGN IN – 1.png',
+      ),
+      child: Scaffold(
+        backgroundColor: Colors.transparent,
+        appBar: AppBar(
+          title: Text(
+            'Login',
+            style: GoogleFonts.poppins(
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+              color: Colors.white,
             ),
-            fit: BoxFit.cover,
           ),
         ),
-        child: Form(
-          key: formKey,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              Text(
-                'Login',
-                textAlign: TextAlign.center,
-                style: GoogleFonts.poppins(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.white,
+        body: CustomScrollView(
+          slivers: [
+            SliverToBoxAdapter(
+              child: Padding(
+                padding: EdgeInsets.only(
+                  top: mediaQuery.height * 0.06,
+                  left: 20,
+                  right: 20,
+                ),
+                child: Form(
+                  key: formKey,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      SizedBox(
+                        height: mediaQuery.height * 0.2,
+                      ),
+                      Text(
+                        'Welcome back!',
+                        style: GoogleFonts.poppins(
+                          fontSize: 24,
+                          fontWeight: FontWeight.bold,
+                          color:
+                              provider.isDark() ? Colors.white : Colors.black,
+                        ),
+                      ),
+                      SizedBox(
+                        height: mediaQuery.height * 0.015,
+                      ),
+                      CustomTextFormField(
+                        controller: emailController,
+                        label: 'Email Address',
+                        hint: 'Enter your email address',
+                        validator: (value) {
+                          if (value == null || value.trim().isEmpty) {
+                            return 'Please enter your email address';
+                          }
+                          var regex = RegExp(
+                              r"(^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9]+\.[a-zA-Z0-9-.]+$)");
+                          if (!regex.hasMatch(value)) {
+                            return 'enter a valid email address';
+                          }
+                          return null;
+                        },
+                      ),
+                      CustomTextFormField(
+                        controller: passwordController,
+                        label: 'Password',
+                        hint: 'Enter your Password',
+                        obscureText: isObscure,
+                        suffixIcon: IconButton(
+                          onPressed: () {
+                            isObscure = !isObscure;
+                            setState(() {});
+                          },
+                          icon: Icon(
+                            isObscure ? Icons.visibility_off : Icons.visibility,
+                          ),
+                        ),
+                        validator: (value) {
+                          if (value == null || value.trim().isEmpty) {
+                            return 'Please enter your password';
+                          }
+                          var regex = RegExp(
+                              r"(?=^.{8,}$)(?=.*[!@#$%^&*]+)(?![.\\n])(?=.*[A-Z])(?=.*[a-z]).*$");
+                          if (!regex.hasMatch(value)) {
+                            return 'enter a valid password';
+                          }
+                          return null;
+                        },
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 30.0),
+                        child: ElevatedButton(
+                          onPressed: () {
+                            login();
+                          },
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: AppTheme.primaryColor,
+                            padding: const EdgeInsets.symmetric(
+                              vertical: 12,
+                            ),
+                          ),
+                          child: Text(
+                            'Login',
+                            style: GoogleFonts.poppins(
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white,
+                            ),
+                          ),
+                        ),
+                      ),
+                      SizedBox(
+                        height: mediaQuery.height * 0.015,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            "if you don't have an account?.",
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.normal,
+                              color: provider.isDark()
+                                  ? Colors.white
+                                  : Colors.black,
+                            ),
+                          ),
+                          TextButton(
+                            onPressed: () {
+                              Navigator.pushNamed(
+                                  context, RegisterView.routeName);
+                            },
+                            child: const Text(
+                              'Register',
+                              style: TextStyle(
+                                fontSize: 14,
+                                color: AppTheme.primaryColor,
+                                fontWeight: FontWeight.normal,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
               ),
-              SizedBox(
-                height: mediaQuery.height * 0.2,
-              ),
-              Text(
-                'Welcome back!',
-                style: GoogleFonts.poppins(
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
-                  color: provider.isDark() ? Colors.white : Colors.black,
-                ),
-              ),
-              SizedBox(
-                height: mediaQuery.height * 0.015,
-              ),
-              CustomTextFormField(
-                controller: emailController,
-                label: 'Email Address',
-                hint: 'Enter your email address',
-                validator: (value) {
-                  if (value == null || value.trim().isEmpty) {
-                    return 'Please enter your email address';
-                  }
-                  var regex = RegExp(
-                      r"(^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9]+\.[a-zA-Z0-9-.]+$)");
-                  if (!regex.hasMatch(value)) {
-                    return 'enter a valid email address';
-                  }
-                  return null;
-                },
-              ),
-              CustomTextFormField(
-                controller: passwordController,
-                label: 'Password',
-                hint: 'Enter your Password',
-                obscureText: isObscure,
-                suffixIcon: IconButton(
-                  onPressed: () {
-                    isObscure = !isObscure;
-                    setState(() {});
-                  },
-                  icon: Icon(
-                    isObscure ? Icons.visibility_off : Icons.visibility,
-                  ),
-                ),
-                validator: (value) {
-                  if (value == null || value.trim().isEmpty) {
-                    return 'Please enter your password';
-                  }
-                  var regex = RegExp(
-                      r"(?=^.{8,}$)(?=.*[!@#$%^&*]+)(?![.\\n])(?=.*[A-Z])(?=.*[a-z]).*$");
-                  if (!regex.hasMatch(value)) {
-                    return 'enter a valid password';
-                  }
-                  return null;
-                },
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 30.0),
-                child: ElevatedButton(
-                  onPressed: () {
-                    login();
-                  },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: AppTheme.primaryColor,
-                    padding: const EdgeInsets.symmetric(
-                      vertical: 12,
-                    ),
-                  ),
-                  child: Text(
-                    'Login',
-                    style: GoogleFonts.poppins(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-              ),
-              SizedBox(
-                height: mediaQuery.height * 0.015,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    "if you don't have an account?.",
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.normal,
-                      color: provider.isDark() ? Colors.white : Colors.black,
-                    ),
-                  ),
-                  TextButton(
-                    onPressed: () {
-                      Navigator.pushNamed(context, RegisterView.routeName);
-                    },
-                    child: const Text(
-                      'Register',
-                      style:
-                          TextStyle(fontSize: 16, color: AppTheme.primaryColor),
-                    ),
-                  ),
-                ],
-              ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
