@@ -198,6 +198,7 @@ class _AddTaskBottomSheetState extends State<AddTaskBottomSheet> {
                     style: GoogleFonts.poppins(
                       fontWeight: FontWeight.bold,
                       fontSize: 20,
+                      color: Colors.white,
                     ),
                   ),
                 ),

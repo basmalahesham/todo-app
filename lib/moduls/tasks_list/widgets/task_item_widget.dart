@@ -108,12 +108,17 @@ class _TaskItemWidgetState extends State<TaskItemWidget> {
                   const SizedBox(
                     height: 5,
                   ),
-                  Text(
-                    widget.model.description ?? '',
-                    style: GoogleFonts.poppins(
-                      color: provider.isDark() ? Colors.white : Colors.black,
-                      fontSize: 15,
-                      fontWeight: FontWeight.w500,
+                  SizedBox(
+                    width: MediaQuery.sizeOf(context).width * 0.5,
+                    child: Text(
+                      widget.model.description ?? '',
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                      style: GoogleFonts.poppins(
+                        color: provider.isDark() ? Colors.white : Colors.black,
+                        fontSize: 15,
+                        fontWeight: FontWeight.w500,
+                      ),
                     ),
                   ),
                   Row(
