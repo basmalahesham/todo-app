@@ -31,6 +31,10 @@ class SettingsProvider extends ChangeNotifier {
     return currentTheme == ThemeMode.dark;
   }
 
+  bool isEn() {
+    return currentLocal == 'en';
+  }
+
   String getMainBackground() {
     return currentTheme == ThemeMode.dark
         ? 'assets/images/dark_bg.png'
