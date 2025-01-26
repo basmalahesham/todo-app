@@ -33,6 +33,7 @@ class CustomTextFormField extends StatelessWidget {
         obscureText: obscureText,
         controller: controller,
         //onChanged: onChanged,
+        style: TextStyle(color: provider.isDark() ? Colors.white : Colors.black),
         validator: validator,
         decoration: InputDecoration(
           suffixIcon: suffixIcon,
