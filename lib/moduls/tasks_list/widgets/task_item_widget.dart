@@ -109,7 +109,7 @@ class _TaskItemWidgetState extends State<TaskItemWidget> {
                     height: 5,
                   ),
                   SizedBox(
-                    width: MediaQuery.sizeOf(context).width * 0.5,
+                    width: MediaQuery.sizeOf(context).width * 0.4,
                     child: Text(
                       widget.model.description ?? '',
                       maxLines: 2,
