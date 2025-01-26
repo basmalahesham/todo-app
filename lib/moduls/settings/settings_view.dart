@@ -24,8 +24,8 @@ class _SettingsViewState extends State<SettingsView> {
     return Column(
       children: [
         Container(
-          alignment: Alignment.centerLeft,
-          padding: const EdgeInsets.only(top: 40, left: 20),
+          alignment: provider.isEn()?Alignment.centerLeft: Alignment.centerRight,
+          padding: const EdgeInsets.only(top: 40, left: 20,right: 20),
           width: mediaQuery.width,
           height: mediaQuery.height * 0.15,
           color: AppTheme.primaryColor,
