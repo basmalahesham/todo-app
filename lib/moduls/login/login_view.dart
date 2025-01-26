@@ -34,9 +34,9 @@ class _LoginViewState extends State<LoginView> {
     var provider = Provider.of<SettingsProvider>(context);
     var mediaQuery = MediaQuery.of(context).size;
     return Container(
-      decoration: const BoxDecoration(
-        color: Color(0xFFDFECDB),
-        image: DecorationImage(
+      decoration: BoxDecoration(
+        color: provider.isDark() ? AppTheme.darkColor : AppTheme.lightColor,
+        image: const DecorationImage(
           image: AssetImage(
             'assets/images/SIGN IN – 1.png',
           ),

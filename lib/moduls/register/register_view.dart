@@ -38,9 +38,9 @@ class _RegisterViewState extends State<RegisterView> {
     var provider = Provider.of<SettingsProvider>(context);
     var mediaQuery = MediaQuery.of(context).size;
     return Container(
-      decoration: const BoxDecoration(
-        color: Color(0xFFDFECDB),
-        image: DecorationImage(
+      decoration: BoxDecoration(
+        color: provider.isDark() ? AppTheme.darkColor : AppTheme.lightColor,
+        image: const DecorationImage(
           image: AssetImage(
             'assets/images/SIGN IN – 1.png',
           ),
@@ -74,7 +74,7 @@ class _RegisterViewState extends State<RegisterView> {
             SliverToBoxAdapter(
               child: Padding(
                 padding: EdgeInsets.only(
-                  top: mediaQuery.height * 0.03,
+                  top: mediaQuery.height * 0.02,
                   left: 20,
                   right: 20,
                 ),
@@ -200,7 +200,9 @@ class _RegisterViewState extends State<RegisterView> {
                             style: TextStyle(
                               fontSize: 18,
                               fontWeight: FontWeight.normal,
-                              color: provider.isDark() ? Colors.white : Colors.black,
+                              color: provider.isDark()
+                                  ? Colors.white
+                                  : Colors.black,
                             ),
                           ),
                           TextButton(
