@@ -85,7 +85,7 @@ class _EditViewState extends State<EditView> {
                   height: mediaQuery.height * 0.002,
                 ),
                 Text(
-                  "Title",
+                  AppLocalizations.of(context)!.title,
                   style: GoogleFonts.poppins(
                     fontWeight: FontWeight.bold,
                     fontSize: 17,
@@ -103,20 +103,16 @@ class _EditViewState extends State<EditView> {
                   //controller: titleController,
                   validator: (value) {
                     if (value == null || value.trim().isEmpty) {
-                      return "Title can't be empty";
+                      return AppLocalizations.of(context)!.titleCantBeEmpty;
                     } else if (value.length < 8) {
-                      return "Title must be at least 8 characters";
+                      return AppLocalizations.of(context)!
+                          .titleMustBeAtLeastCharacters;
                     } else {
                       return null;
                     }
                   },
                   decoration: InputDecoration(
-                    /*labelText: 'Title',
-                labelStyle: GoogleFonts.poppins(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 17,
-                ),*/
-                    hintText: 'Enter Your Task Title',
+                    hintText: AppLocalizations.of(context)!.enterYourTaskTitle,
                     hintStyle: TextStyle(
                       color: provider.isDark() ? Colors.white : Colors.black,
                     ),
@@ -144,7 +140,7 @@ class _EditViewState extends State<EditView> {
                   height: mediaQuery.height * 0.01,
                 ),
                 Text(
-                  "Description",
+                  AppLocalizations.of(context)!.description,
                   style: GoogleFonts.poppins(
                     fontWeight: FontWeight.bold,
                     fontSize: 17,
@@ -162,7 +158,8 @@ class _EditViewState extends State<EditView> {
                   //controller: descriptionController,
                   validator: (value) {
                     if (value == null || value.trim().isEmpty) {
-                      return "Description can't be empty";
+                      return AppLocalizations.of(context)!
+                          .descriptionCantBeEmpty;
                     } else {
                       return null;
                     }
@@ -170,7 +167,8 @@ class _EditViewState extends State<EditView> {
                   minLines: 3,
                   maxLines: 3,
                   decoration: InputDecoration(
-                    hintText: 'Enter Your Task Description',
+                    hintText:
+                        AppLocalizations.of(context)!.enterYourTaskDescription,
                     hintStyle: TextStyle(
                       color: provider.isDark() ? Colors.white : Colors.black,
                     ),
@@ -198,28 +196,13 @@ class _EditViewState extends State<EditView> {
                   height: mediaQuery.height * 0.01,
                 ),
                 Text(
-                  "Select Time",
+                  AppLocalizations.of(context)!.selectTime,
                   style: GoogleFonts.poppins(
                     fontWeight: FontWeight.bold,
                     fontSize: 17,
                     color: provider.isDark() ? Colors.white : Colors.black,
                   ),
                 ),
-                /*InkWell(
-                  onTap: () {
-                    selectDateTime();
-                  },
-                  child: Text(
-                    (DateFormat.yMMMEd().format(selectedDate)),
-                    //"${selectedDate.day} - ${selectedDate.month} - ${selectedDate.year}",
-                    textAlign: TextAlign.center,
-                    style: GoogleFonts.poppins(
-                      fontWeight: FontWeight.w500,
-                      fontSize: 16,
-                      color: AppTheme.primaryColor,
-                    ),
-                  ),
-                ),*/
                 InkWell(
                   onTap: () async {
                     selectedDate = await showDatePicker(
@@ -260,7 +243,7 @@ class _EditViewState extends State<EditView> {
                     ),
                   ),
                   child: Text(
-                    "Save Changes",
+                    AppLocalizations.of(context)!.saveChanges,
                     style: GoogleFonts.poppins(
                       fontWeight: FontWeight.bold,
                       fontSize: 18,
@@ -275,22 +258,4 @@ class _EditViewState extends State<EditView> {
       ),
     );
   }
-
-/*selectDateTime() async {
-    // select date
-    // day month year
-    var currentDate = await showDatePicker(
-      context: context,
-      initialDate: selectedDate,
-      firstDate: DateTime.now(),
-      lastDate: DateTime.now().add(
-        const Duration(days: 365),
-      ),
-    );
-    if (currentDate == null) {
-      return;
-    }
-    selectedDate = currentDate;
-    setState(() {});
-  }*/
 }

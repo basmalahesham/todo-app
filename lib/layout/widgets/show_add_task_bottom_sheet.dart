@@ -9,6 +9,7 @@ import 'package:untitled3/core/theme/app_theme.dart';
 import 'package:untitled3/core/utils/my_date_time.dart';
 import 'package:untitled3/models/task_model.dart';
 import 'package:untitled3/provider/settings_provider.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class AddTaskBottomSheet extends StatefulWidget {
   const AddTaskBottomSheet({super.key});
@@ -47,7 +48,7 @@ class _AddTaskBottomSheetState extends State<AddTaskBottomSheet> {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 Text(
-                  "Add New Task",
+                  AppLocalizations.of(context)!.addNewTask,
                   textAlign: TextAlign.center,
                   style: GoogleFonts.poppins(
                     fontWeight: FontWeight.bold,
@@ -59,7 +60,7 @@ class _AddTaskBottomSheetState extends State<AddTaskBottomSheet> {
                   height: mediaQuery.height * 0.001,
                 ),
                 Text(
-                  "Title",
+                  AppLocalizations.of(context)!.title,
                   style: GoogleFonts.poppins(
                     fontWeight: FontWeight.bold,
                     fontSize: 17,
@@ -73,15 +74,16 @@ class _AddTaskBottomSheetState extends State<AddTaskBottomSheet> {
                   controller: titleController,
                   validator: (value) {
                     if (value == null || value.trim().isEmpty) {
-                      return "Title can't be empty";
+                      return AppLocalizations.of(context)!.enterYourTaskTitle;
                     } else if (value.length < 8) {
-                      return "Title must be at least 8 characters";
+                      return AppLocalizations.of(context)!
+                          .titleMustBeAtLeastCharacters;
                     } else {
                       return null;
                     }
                   },
                   decoration: InputDecoration(
-                    hintText: 'Enter Your Task Title',
+                    hintText: AppLocalizations.of(context)!.enterYourTaskTitle,
                     hintStyle: TextStyle(
                       color: provider.isDark() ? Colors.white : Colors.black,
                     ),
@@ -109,7 +111,7 @@ class _AddTaskBottomSheetState extends State<AddTaskBottomSheet> {
                   height: mediaQuery.height * 0.01,
                 ),
                 Text(
-                  "Description",
+                  AppLocalizations.of(context)!.description,
                   style: GoogleFonts.poppins(
                     fontWeight: FontWeight.bold,
                     fontSize: 17,
@@ -123,7 +125,8 @@ class _AddTaskBottomSheetState extends State<AddTaskBottomSheet> {
                   controller: descriptionController,
                   validator: (value) {
                     if (value == null || value.trim().isEmpty) {
-                      return "Description can't be empty";
+                      return AppLocalizations.of(context)!
+                          .descriptionCantBeEmpty;
                     } else {
                       return null;
                     }
@@ -131,7 +134,8 @@ class _AddTaskBottomSheetState extends State<AddTaskBottomSheet> {
                   minLines: 2,
                   maxLines: 2,
                   decoration: InputDecoration(
-                    hintText: 'Enter Your Task Description',
+                    hintText:
+                        AppLocalizations.of(context)!.enterYourTaskDescription,
                     hintStyle: TextStyle(
                       color: provider.isDark() ? Colors.white : Colors.black,
                     ),
@@ -161,7 +165,7 @@ class _AddTaskBottomSheetState extends State<AddTaskBottomSheet> {
                 Row(
                   children: [
                     Text(
-                      "Select Time :",
+                      '${AppLocalizations.of(context)!.selectTime} :',
                       style: GoogleFonts.poppins(
                         fontWeight: FontWeight.bold,
                         fontSize: 17,
@@ -194,7 +198,7 @@ class _AddTaskBottomSheetState extends State<AddTaskBottomSheet> {
                     addTask();
                   },
                   child: Text(
-                    "Add Task",
+                    AppLocalizations.of(context)!.addTask,
                     style: GoogleFonts.poppins(
                       fontWeight: FontWeight.bold,
                       fontSize: 20,
@@ -243,11 +247,13 @@ class _AddTaskBottomSheetState extends State<AddTaskBottomSheet> {
         EasyLoading.show();
         await FirestoreUtils.addTask(taskModel);
         EasyLoading.dismiss();
-        SnackBarService.showSuccessMessage('Task added successfully');
+        SnackBarService.showSuccessMessage(
+            AppLocalizations.of(context)!.taskAddedSuccessfully);
         Navigator.pop(context);
       } catch (e) {
         EasyLoading.dismiss();
-        SnackBarService.showErrorMessage('Task added failed');
+        SnackBarService.showErrorMessage(
+            AppLocalizations.of(context)!.taskAddedFailed);
         Navigator.pop(context);
       }
     }

@@ -10,6 +10,7 @@ import 'package:untitled3/core/theme/app_theme.dart';
 import 'package:untitled3/core/widgets/custom_text_form_field.dart';
 import 'package:untitled3/moduls/login/login_view.dart';
 import 'package:untitled3/provider/settings_provider.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class RegisterView extends StatefulWidget {
   const RegisterView({super.key});
@@ -61,7 +62,7 @@ class _RegisterViewState extends State<RegisterView> {
             ),
           ),
           title: Text(
-            'Create Account',
+            AppLocalizations.of(context)!.createAnAccount,
             style: GoogleFonts.poppins(
               fontSize: 20,
               fontWeight: FontWeight.bold,
@@ -88,14 +89,14 @@ class _RegisterViewState extends State<RegisterView> {
                       ),
                       CustomTextFormField(
                         controller: nameController,
-                        label: 'Full Name',
-                        hint: 'Enter your Full Name',
+                        label: AppLocalizations.of(context)!.fullName,
+                        hint: AppLocalizations.of(context)!.enterYourFullName,
                         validator: (value) {
                           if (value == null || value.trim().isEmpty) {
-                            return 'Please enter your name';
+                            return AppLocalizations.of(context)!.pleaseEnterYourName;
                           }
                           if (value.trim().length < 6) {
-                            return 'your name must be at least 6 characters';
+                            return AppLocalizations.of(context)!.yourNameMustBeAtLeastCharacters;
                           }
                           return null;
                         },
@@ -106,24 +107,24 @@ class _RegisterViewState extends State<RegisterView> {
                       ),
                       CustomTextFormField(
                         controller: emailController,
-                        label: 'Email Address',
-                        hint: 'Enter your email address',
+                        label: AppLocalizations.of(context)!.email,
+                        hint: AppLocalizations.of(context)!.enterYourEmailAddress,
                         validator: (value) {
                           if (value == null || value.trim().isEmpty) {
-                            return 'Please enter your email address';
+                            return AppLocalizations.of(context)!.pleaseEnterYourEmailAddress;
                           }
                           var regex = RegExp(
                               r"(^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9]+\.[a-zA-Z0-9-.]+$)");
                           if (!regex.hasMatch(value)) {
-                            return 'enter a valid email address';
+                            return AppLocalizations.of(context)!.enterValidEmailAddress;
                           }
                           return null;
                         },
                       ),
                       CustomTextFormField(
                         controller: passwordController,
-                        label: 'Password',
-                        hint: 'Enter your Password',
+                        label: AppLocalizations.of(context)!.password,
+                        hint: AppLocalizations.of(context)!.enterYourPassword,
                         obscureText: isObscure,
                         suffixIcon: IconButton(
                           onPressed: () {
@@ -136,20 +137,20 @@ class _RegisterViewState extends State<RegisterView> {
                         ),
                         validator: (value) {
                           if (value == null || value.trim().isEmpty) {
-                            return 'Please enter your password';
+                            return AppLocalizations.of(context)!.pleaseEnterYourPassword;
                           }
                           var regex = RegExp(
                               r"(?=^.{8,}$)(?=.*[!@#$%^&*]+)(?![.\\n])(?=.*[A-Z])(?=.*[a-z]).*$");
                           if (!regex.hasMatch(value)) {
-                            return 'enter a valid password';
+                            return AppLocalizations.of(context)!.enterValidPassword;
                           }
                           return null;
                         },
                       ),
                       CustomTextFormField(
                         controller: confirmPasswordController,
-                        label: 'Confirm Password',
-                        hint: 'Enter your confirmation password',
+                        label: AppLocalizations.of(context)!.confirmPassword,
+                        hint: AppLocalizations.of(context)!.enterYourConfirmationPassword,
                         obscureText: isObscure,
                         suffixIcon: IconButton(
                           onPressed: () {
@@ -162,10 +163,10 @@ class _RegisterViewState extends State<RegisterView> {
                         ),
                         validator: (value) {
                           if (value == null || value.trim().isEmpty) {
-                            return 'Please enter your confirmation password';
+                            return AppLocalizations.of(context)!.pleaseEnterYourConfirmationPassword;
                           }
                           if (passwordController.text != value) {
-                            return 'enter correct password, password not match';
+                            return AppLocalizations.of(context)!.enterCorrectPasswordPasswordNotMatch;
                           }
                           return null;
                         },
@@ -183,7 +184,7 @@ class _RegisterViewState extends State<RegisterView> {
                             ),
                           ),
                           child: Text(
-                            'Register',
+                            AppLocalizations.of(context)!.registration,
                             style: GoogleFonts.poppins(
                               fontSize: 18,
                               fontWeight: FontWeight.bold,
@@ -196,7 +197,7 @@ class _RegisterViewState extends State<RegisterView> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(
-                            "Already have an account?.",
+                            AppLocalizations.of(context)!.alreadyHaveAnAccount,
                             style: TextStyle(
                               fontSize: 18,
                               fontWeight: FontWeight.normal,
@@ -209,9 +210,9 @@ class _RegisterViewState extends State<RegisterView> {
                             onPressed: () {
                               Navigator.pushNamed(context, LoginView.routeName);
                             },
-                            child: const Text(
-                              'Login',
-                              style: TextStyle(
+                            child: Text(
+                              AppLocalizations.of(context)!.login,
+                              style: const TextStyle(
                                 fontSize: 16,
                                 color: AppTheme.primaryColor,
                                 fontWeight: FontWeight.normal,
@@ -246,24 +247,24 @@ class _RegisterViewState extends State<RegisterView> {
         log(userCredential.user as String);
         EasyLoading.dismiss();
         SnackBarService.showSuccessMessage(
-            'The account was registered successfully');
+            AppLocalizations.of(context)!.theAccountWasRegisteredSuccessfully);
         Navigator.pop(context);
       } on FirebaseAuthException catch (e) {
-        if (e.code == 'weak-password') {
+        if (e.code == AppLocalizations.of(context)!.weakPassword) {
           EasyLoading.dismiss();
           SnackBarService.showErrorMessage(
-              'The password provided is too weak.');
+              AppLocalizations.of(context)!.thePasswordProvidedIsTooWeak);
           log('The password provided is too weak.');
-        } else if (e.code == 'email-already-in-use') {
+        } else if (e.code == AppLocalizations.of(context)!.emailAlreadyInUse) {
           EasyLoading.dismiss();
           SnackBarService.showErrorMessage(
-              'The account already exists for that email.');
+              AppLocalizations.of(context)!.theAccountAlreadyExistsForThatEmail);
           log('The account already exists for that email.');
         }
       } catch (e) {
         EasyLoading.dismiss();
         SnackBarService.showErrorMessage(
-            'no network please check internet connection');
+            AppLocalizations.of(context)!.noNetworkPleaseCheckInternetConnection);
         log(e as String);
       }
     }

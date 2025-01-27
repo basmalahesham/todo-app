@@ -8,6 +8,7 @@ import 'package:untitled3/core/theme/app_theme.dart';
 import 'package:untitled3/models/task_model.dart';
 import 'package:untitled3/moduls/edit/edit_view.dart';
 import 'package:untitled3/provider/settings_provider.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class TaskItemWidget extends StatefulWidget {
   final TaskModel model;
@@ -47,13 +48,13 @@ class _TaskItemWidgetState extends State<TaskItemWidget> {
               backgroundColor: const Color(0xFFFE4A49),
               foregroundColor: Colors.white,
               icon: Icons.delete,
-              label: 'Delete',
+              label: AppLocalizations.of(context)!.delete,
             ),
             SlidableAction(
               backgroundColor: AppTheme.primaryColor,
               foregroundColor: Colors.white,
               icon: Icons.edit,
-              label: 'Edit',
+              label: AppLocalizations.of(context)!.edit,
               onPressed: (context) {
                 Navigator.pushNamed(
                   context,
@@ -151,9 +152,9 @@ class _TaskItemWidgetState extends State<TaskItemWidget> {
                   setState(() {});
                 },
                 child: widget.model.isDone!
-                    ? const Text(
-                        'Done!',
-                        style: TextStyle(
+                    ? Text(
+                        AppLocalizations.of(context)!.done,
+                        style: const TextStyle(
                           color: Colors.green,
                           fontWeight: FontWeight.bold,
                           fontSize: 25,

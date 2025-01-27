@@ -24,8 +24,9 @@ class _SettingsViewState extends State<SettingsView> {
     return Column(
       children: [
         Container(
-          alignment: provider.isEn()?Alignment.centerLeft: Alignment.centerRight,
-          padding: const EdgeInsets.only(top: 40, left: 20,right: 20),
+          alignment:
+              provider.isEn() ? Alignment.centerLeft : Alignment.centerRight,
+          padding: const EdgeInsets.only(top: 40, left: 20, right: 20),
           width: mediaQuery.width,
           height: mediaQuery.height * 0.15,
           color: AppTheme.primaryColor,
@@ -62,10 +63,13 @@ class _SettingsViewState extends State<SettingsView> {
                         horizontal: 12, vertical: 10),
                     height: 55,
                     decoration: BoxDecoration(
-                        color: provider.isDark()
-                            ? const Color(0xFF141922)
-                            : Colors.white,
-                        border: Border.all(color: AppTheme.primaryColor)),
+                      color: provider.isDark()
+                          ? const Color(0xFF141922)
+                          : Colors.white,
+                      border: Border.all(
+                        color: AppTheme.primaryColor,
+                      ),
+                    ),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -109,10 +113,13 @@ class _SettingsViewState extends State<SettingsView> {
                         horizontal: 12, vertical: 10),
                     height: 55,
                     decoration: BoxDecoration(
-                        color: provider.isDark()
-                            ? const Color(0xFF141922)
-                            : Colors.white,
-                        border: Border.all(color: AppTheme.primaryColor)),
+                      color: provider.isDark()
+                          ? const Color(0xFF141922)
+                          : Colors.white,
+                      border: Border.all(
+                        color: AppTheme.primaryColor,
+                      ),
+                    ),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -138,7 +145,7 @@ class _SettingsViewState extends State<SettingsView> {
                   padding: const EdgeInsets.symmetric(vertical: 30.0),
                   child: ElevatedButton(
                     onPressed: () {
-                       Navigator.pushNamed(context, LoginView.routeName);
+                      Navigator.pushNamed(context, LoginView.routeName);
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: AppTheme.primaryColor,
@@ -147,7 +154,7 @@ class _SettingsViewState extends State<SettingsView> {
                       ),
                     ),
                     child: Text(
-                      'Logout',
+                      AppLocalizations.of(context)!.logout,
                       style: GoogleFonts.poppins(
                         fontSize: 18,
                         fontWeight: FontWeight.bold,

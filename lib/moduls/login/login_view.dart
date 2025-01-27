@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
@@ -11,6 +9,7 @@ import 'package:untitled3/core/widgets/custom_text_form_field.dart';
 import 'package:untitled3/layout/home_layout.dart';
 import 'package:untitled3/moduls/register/register_view.dart';
 import 'package:untitled3/provider/settings_provider.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class LoginView extends StatefulWidget {
   const LoginView({super.key});
@@ -47,7 +46,7 @@ class _LoginViewState extends State<LoginView> {
         backgroundColor: Colors.transparent,
         appBar: AppBar(
           title: Text(
-            'Login',
+            AppLocalizations.of(context)!.login,
             style: GoogleFonts.poppins(
               fontSize: 20,
               fontWeight: FontWeight.bold,
@@ -73,7 +72,7 @@ class _LoginViewState extends State<LoginView> {
                         height: mediaQuery.height * 0.2,
                       ),
                       Text(
-                        'Welcome back!',
+                        AppLocalizations.of(context)!.welcome,
                         style: GoogleFonts.poppins(
                           fontSize: 24,
                           fontWeight: FontWeight.bold,
@@ -86,24 +85,24 @@ class _LoginViewState extends State<LoginView> {
                       ),
                       CustomTextFormField(
                         controller: emailController,
-                        label: 'Email Address',
-                        hint: 'Enter your email address',
+                        label: AppLocalizations.of(context)!.email,
+                        hint: AppLocalizations.of(context)!.enterYourEmailAddress,
                         validator: (value) {
                           if (value == null || value.trim().isEmpty) {
-                            return 'Please enter your email address';
+                            return AppLocalizations.of(context)!.pleaseEnterYourEmailAddress;
                           }
                           var regex = RegExp(
                               r"(^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9]+\.[a-zA-Z0-9-.]+$)");
                           if (!regex.hasMatch(value)) {
-                            return 'enter a valid email address';
+                            return AppLocalizations.of(context)!.enterValidEmailAddress;
                           }
                           return null;
                         },
                       ),
                       CustomTextFormField(
                         controller: passwordController,
-                        label: 'Password',
-                        hint: 'Enter your Password',
+                        label: AppLocalizations.of(context)!.password,
+                        hint: AppLocalizations.of(context)!.enterYourPassword,
                         obscureText: isObscure,
                         suffixIcon: IconButton(
                           onPressed: () {
@@ -116,12 +115,12 @@ class _LoginViewState extends State<LoginView> {
                         ),
                         validator: (value) {
                           if (value == null || value.trim().isEmpty) {
-                            return 'Please enter your password';
+                            return AppLocalizations.of(context)!.pleaseEnterYourPassword;
                           }
                           var regex = RegExp(
                               r"(?=^.{8,}$)(?=.*[!@#$%^&*]+)(?![.\\n])(?=.*[A-Z])(?=.*[a-z]).*$");
                           if (!regex.hasMatch(value)) {
-                            return 'enter a valid password';
+                            return AppLocalizations.of(context)!.enterValidPassword;
                           }
                           return null;
                         },
@@ -139,7 +138,7 @@ class _LoginViewState extends State<LoginView> {
                             ),
                           ),
                           child: Text(
-                            'Login',
+                            AppLocalizations.of(context)!.login,
                             style: GoogleFonts.poppins(
                               fontSize: 18,
                               fontWeight: FontWeight.bold,
@@ -155,7 +154,7 @@ class _LoginViewState extends State<LoginView> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(
-                            "if you don't have an account?.",
+                            AppLocalizations.of(context)!.ifYouDontHaveAnAccount,
                             style: TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.normal,
@@ -169,9 +168,9 @@ class _LoginViewState extends State<LoginView> {
                               Navigator.pushNamed(
                                   context, RegisterView.routeName);
                             },
-                            child: const Text(
-                              'Register',
-                              style: TextStyle(
+                            child: Text(
+                              AppLocalizations.of(context)!.registration,
+                              style: const TextStyle(
                                 fontSize: 14,
                                 color: AppTheme.primaryColor,
                                 fontWeight: FontWeight.normal,
@@ -191,60 +190,22 @@ class _LoginViewState extends State<LoginView> {
     );
   }
 
-  void register() async {
-    // print(nameController.text);
-    // formKey.currentState?.validate();
-    if (formKey.currentState!.validate()) {
-      // authenticate with firebase
-      try {
-        EasyLoading.show();
-        final userCredential =
-            await FirebaseAuth.instance.createUserWithEmailAndPassword(
-          email: emailController.text,
-          password: passwordController.text,
-        );
-        log(userCredential.user as String);
-        EasyLoading.dismiss();
-        SnackBarService.showSuccessMessage(
-            'The account was registered successfully');
-        Navigator.pop(context);
-      } on FirebaseAuthException catch (e) {
-        if (e.code == 'weak-password') {
-          EasyLoading.dismiss();
-          SnackBarService.showErrorMessage(
-              'The password provided is too weak.');
-          log('The password provided is too weak.');
-        } else if (e.code == 'email-already-in-use') {
-          EasyLoading.dismiss();
-          SnackBarService.showErrorMessage(
-              'The account already exists for that email.');
-          log('The account already exists for that email.');
-        }
-      } catch (e) {
-        EasyLoading.dismiss();
-        SnackBarService.showErrorMessage(
-            'no network please check internet connection');
-        log(e as String);
-      }
-    }
-  }
-
   void login() async {
     if (formKey.currentState!.validate()) {
       try {
         EasyLoading.show();
         EasyLoading.dismiss();
-        SnackBarService.showSuccessMessage('you are login successfully');
+        SnackBarService.showSuccessMessage(AppLocalizations.of(context)!.youAreLoginSuccessfully);
         Navigator.pushNamedAndRemoveUntil(
             context, HomeLayoutView.routeName, (route) => false);
       } on FirebaseAuthException catch (e) {
-        if (e.code == 'user-not-found') {
+        if (e.code == AppLocalizations.of(context)!.userNotFound) {
           EasyLoading.dismiss();
-          SnackBarService.showErrorMessage('No user found for that email.');
-        } else if (e.code == 'wrong-password') {
+          SnackBarService.showErrorMessage(AppLocalizations.of(context)!.noUserFoundForThatEmail);
+        } else if (e.code == AppLocalizations.of(context)!.wrongPassword) {
           EasyLoading.dismiss();
           SnackBarService.showErrorMessage(
-              'Wrong password provided for that user.');
+              AppLocalizations.of(context)!.wrongPasswordProvidedForThatUser);
         }
       }
     }
