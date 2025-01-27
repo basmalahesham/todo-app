@@ -1,3 +1,4 @@
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
@@ -86,15 +87,18 @@ class _LoginViewState extends State<LoginView> {
                       CustomTextFormField(
                         controller: emailController,
                         label: AppLocalizations.of(context)!.email,
-                        hint: AppLocalizations.of(context)!.enterYourEmailAddress,
+                        hint:
+                            AppLocalizations.of(context)!.enterYourEmailAddress,
                         validator: (value) {
                           if (value == null || value.trim().isEmpty) {
-                            return AppLocalizations.of(context)!.pleaseEnterYourEmailAddress;
+                            return AppLocalizations.of(context)!
+                                .pleaseEnterYourEmailAddress;
                           }
                           var regex = RegExp(
                               r"(^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9]+\.[a-zA-Z0-9-.]+$)");
                           if (!regex.hasMatch(value)) {
-                            return AppLocalizations.of(context)!.enterValidEmailAddress;
+                            return AppLocalizations.of(context)!
+                                .enterValidEmailAddress;
                           }
                           return null;
                         },
@@ -115,12 +119,14 @@ class _LoginViewState extends State<LoginView> {
                         ),
                         validator: (value) {
                           if (value == null || value.trim().isEmpty) {
-                            return AppLocalizations.of(context)!.pleaseEnterYourPassword;
+                            return AppLocalizations.of(context)!
+                                .pleaseEnterYourPassword;
                           }
                           var regex = RegExp(
                               r"(?=^.{8,}$)(?=.*[!@#$%^&*]+)(?![.\\n])(?=.*[A-Z])(?=.*[a-z]).*$");
                           if (!regex.hasMatch(value)) {
-                            return AppLocalizations.of(context)!.enterValidPassword;
+                            return AppLocalizations.of(context)!
+                                .enterValidPassword;
                           }
                           return null;
                         },
@@ -154,7 +160,8 @@ class _LoginViewState extends State<LoginView> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(
-                            AppLocalizations.of(context)!.ifYouDontHaveAnAccount,
+                            AppLocalizations.of(context)!
+                                .ifYouDontHaveAnAccount,
                             style: TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.normal,
@@ -194,20 +201,30 @@ class _LoginViewState extends State<LoginView> {
     if (formKey.currentState!.validate()) {
       try {
         EasyLoading.show();
+         await FirebaseAuth.instance
+            .signInWithEmailAndPassword(
+                email: emailController.text, password: passwordController.text);
         EasyLoading.dismiss();
-        SnackBarService.showSuccessMessage(AppLocalizations.of(context)!.youAreLoginSuccessfully);
+        SnackBarService.showSuccessMessage(
+            AppLocalizations.of(context)!.youAreLoginSuccessfully);
         Navigator.pushNamedAndRemoveUntil(
             context, HomeLayoutView.routeName, (route) => false);
       } on FirebaseAuthException catch (e) {
-        if (e.code == AppLocalizations.of(context)!.userNotFound) {
-          EasyLoading.dismiss();
-          SnackBarService.showErrorMessage(AppLocalizations.of(context)!.noUserFoundForThatEmail);
-        } else if (e.code == AppLocalizations.of(context)!.wrongPassword) {
-          EasyLoading.dismiss();
+        if (e.code == 'user-not-found') {
+          SnackBarService.showErrorMessage(
+              AppLocalizations.of(context)!.noUserFoundForThatEmail);
+        } else if (e.code == 'wrong-password') {
           SnackBarService.showErrorMessage(
               AppLocalizations.of(context)!.wrongPasswordProvidedForThatUser);
+        } else if (e.code == 'invalid-credential') {
+          SnackBarService.showErrorMessage(
+              AppLocalizations.of(context)!.invalidEmailOrPassword);
         }
+      } catch (e) {
+        SnackBarService.showErrorMessage('there was an error');
       }
+      EasyLoading.dismiss();
+      setState(() {});
     }
   }
 }

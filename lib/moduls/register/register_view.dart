@@ -1,4 +1,3 @@
-import 'dart:developer';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -239,34 +238,29 @@ class _RegisterViewState extends State<RegisterView> {
       // authenticate with firebase
       try {
         EasyLoading.show();
-        final userCredential =
             await FirebaseAuth.instance.createUserWithEmailAndPassword(
           email: emailController.text,
           password: passwordController.text,
         );
-        log(userCredential.user as String);
         EasyLoading.dismiss();
         SnackBarService.showSuccessMessage(
             AppLocalizations.of(context)!.theAccountWasRegisteredSuccessfully);
         Navigator.pop(context);
       } on FirebaseAuthException catch (e) {
-        if (e.code == AppLocalizations.of(context)!.weakPassword) {
-          EasyLoading.dismiss();
+        if (e.code == 'weak-password') {
           SnackBarService.showErrorMessage(
               AppLocalizations.of(context)!.thePasswordProvidedIsTooWeak);
-          log('The password provided is too weak.');
-        } else if (e.code == AppLocalizations.of(context)!.emailAlreadyInUse) {
-          EasyLoading.dismiss();
+        } else if (e.code == 'email-already-in-use') {
           SnackBarService.showErrorMessage(
               AppLocalizations.of(context)!.theAccountAlreadyExistsForThatEmail);
-          log('The account already exists for that email.');
         }
       } catch (e) {
-        EasyLoading.dismiss();
         SnackBarService.showErrorMessage(
             AppLocalizations.of(context)!.noNetworkPleaseCheckInternetConnection);
-        log(e as String);
+        print(e);
       }
+      EasyLoading.dismiss();
+      setState(() {});
     }
   }
 }

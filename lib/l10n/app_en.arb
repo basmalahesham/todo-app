@@ -46,6 +46,7 @@
   "noUserFoundForThatEmail" : "No user found for that email",
   "wrongPassword" : "Wrong password",
   "wrongPasswordProvidedForThatUser": "Wrong password provided for that user",
+  "invalidEmailOrPassword" : "Invalid email or password",
   "enterValidEmailAddress" : "Enter a valid email address",
   "enterYourFullName" : "Enter your Full Name",
   "yourNameMustBeAtLeastCharacters" : "Your name must be at least 6 characters",

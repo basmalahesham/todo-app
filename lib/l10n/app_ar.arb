@@ -46,6 +46,7 @@
   "noUserFoundForThatEmail": "لم يتم العثور على مستخدم لذلك البريد الإلكتروني",
   "wrongPassword": "كلمة مرور خاطئة",
   "wrongPasswordProvidedForThatUser": "تم إدخال كلمة مرور خاطئة لذلك المستخدم",
+  "invalidEmailOrPassword" : "البريد الإلكتروني او كلمة المرور خاطئة",
   "enterValidEmailAddress": "أدخل عنوان بريد إلكتروني صالح",
   "enterYourFullName": "أدخل اسمك الكامل",
   "yourNameMustBeAtLeastCharacters": "يجب أن يكون اسمك مكونًا من 6 أحرف على الأقل",
