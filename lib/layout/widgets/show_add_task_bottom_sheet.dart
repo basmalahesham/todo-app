@@ -82,6 +82,7 @@ class _AddTaskBottomSheetState extends State<AddTaskBottomSheet> {
                       return null;
                     }
                   },
+                  style: TextStyle(color: provider.isDark() ? Colors.white : Colors.black),
                   decoration: InputDecoration(
                     hintText: AppLocalizations.of(context)!.enterYourTaskTitle,
                     hintStyle: TextStyle(
@@ -133,6 +134,7 @@ class _AddTaskBottomSheetState extends State<AddTaskBottomSheet> {
                   },
                   minLines: 2,
                   maxLines: 2,
+                  style: TextStyle(color: provider.isDark() ? Colors.white : Colors.black),
                   decoration: InputDecoration(
                     hintText:
                         AppLocalizations.of(context)!.enterYourTaskDescription,

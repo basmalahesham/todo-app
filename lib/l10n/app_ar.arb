@@ -36,7 +36,7 @@
   "titleCantBeEmpty": "لا يمكن أن يكون العنوان فارغًا",
   "descriptionCantBeEmpty": "لا يمكن أن يكون الوصف فارغًا",
   "done" : "تم",
-  "addNewTask" : "Add New Task",
+  "addNewTask" : "إضافة مهمة جديدة",
   "enterYourEmailAddress": "أدخل عنوان بريدك الإلكتروني",
   "titleMustBeAtLeastCharacters": "يجب أن يكون العنوان مكونًا من 8 أحرف على الأقل",
   "enterYourPassword": "أدخل كلمة مرورك",
