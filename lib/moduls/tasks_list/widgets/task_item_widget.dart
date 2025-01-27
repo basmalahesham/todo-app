@@ -38,10 +38,12 @@ class _TaskItemWidgetState extends State<TaskItemWidget> {
           motion: const DrawerMotion(),
           children: [
             SlidableAction(
-              borderRadius: const BorderRadius.only(
-                bottomLeft: Radius.circular(15),
-                topLeft: Radius.circular(15),
-              ),
+              borderRadius: provider.isEn()
+                  ? const BorderRadius.only(
+                      bottomLeft: Radius.circular(15),
+                      topLeft: Radius.circular(15),
+                    )
+                  : BorderRadius.zero,
               onPressed: (context) {
                 FirestoreUtils.deleteData(widget.model);
               },
@@ -51,6 +53,12 @@ class _TaskItemWidgetState extends State<TaskItemWidget> {
               label: AppLocalizations.of(context)!.delete,
             ),
             SlidableAction(
+              borderRadius: provider.isEn()
+                  ? BorderRadius.zero
+                  : const BorderRadius.only(
+                      bottomRight: Radius.circular(15),
+                      topRight: Radius.circular(15),
+                    ),
               backgroundColor: AppTheme.primaryColor,
               foregroundColor: Colors.white,
               icon: Icons.edit,
@@ -72,9 +80,19 @@ class _TaskItemWidgetState extends State<TaskItemWidget> {
           ),
           decoration: BoxDecoration(
             color: provider.isDark() ? const Color(0xFF141922) : Colors.white,
-            borderRadius: const BorderRadius.only(
-              bottomRight: Radius.circular(15),
-              topRight: Radius.circular(15),
+            borderRadius: BorderRadius.only(
+              bottomRight: provider.isEn()
+                  ? const Radius.circular(15)
+                  : const Radius.circular(0),
+              topRight: provider.isEn()
+                  ? const Radius.circular(15)
+                  : const Radius.circular(0),
+              bottomLeft: provider.isEn()
+                  ? const Radius.circular(0)
+                  : const Radius.circular(15),
+              topLeft: provider.isEn()
+                  ? const Radius.circular(0)
+                  : const Radius.circular(15),
             ),
           ),
           child: Row(
@@ -96,14 +114,18 @@ class _TaskItemWidgetState extends State<TaskItemWidget> {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    widget.model.title ?? '',
-                    style: GoogleFonts.poppins(
-                      color: widget.model.isDone!
-                          ? Colors.green
-                          : AppTheme.primaryColor,
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
+                  SizedBox(
+                    width: MediaQuery.sizeOf(context).width * 0.4,
+                    child: Text(
+                      widget.model.title ?? '',
+                      overflow: TextOverflow.ellipsis,
+                      style: GoogleFonts.poppins(
+                        color: widget.model.isDone!
+                            ? Colors.green
+                            : AppTheme.primaryColor,
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ),
                   const SizedBox(
