@@ -1,7 +1,9 @@
 import 'dart:async';
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:untitled3/layout/home_layout.dart';
 import 'package:untitled3/moduls/login/login_view.dart';
 import 'package:untitled3/provider/settings_provider.dart';
 
@@ -21,7 +23,12 @@ class _SplashViewState extends State<SplashView> {
         const Duration(
           seconds: 2,
         ), () {
-      Navigator.of(context).pushReplacementNamed(LoginView.routeName);
+      Navigator.pushReplacementNamed(
+        context,
+        FirebaseAuth.instance.currentUser == null
+            ? LoginView.routeName
+            : HomeLayoutView.routeName,
+      );
     });
     super.initState();
   }
