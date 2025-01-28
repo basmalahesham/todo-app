@@ -27,8 +27,7 @@ class _SplashViewState extends State<SplashView> {
         context,
         FirebaseAuth.instance.currentUser == null
             ? LoginView.routeName
-            : HomeLayoutView.routeName,
-      );
+            : HomeLayoutView.routeName);
     });
     super.initState();
   }
