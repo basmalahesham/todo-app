@@ -48,3 +48,4 @@ class _SplashViewState extends State<SplashView> {
     );
   }
 }
+
