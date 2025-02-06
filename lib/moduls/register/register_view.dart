@@ -31,7 +31,8 @@ class _RegisterViewState extends State<RegisterView> {
   var confirmPasswordController = TextEditingController();
 
   var formKey = GlobalKey<FormState>();
-  bool isObscure = true;
+  bool isPasswordObscure = true;
+  bool isConfirmationPasswordObscure = true;
 
   @override
   Widget build(BuildContext context) {
@@ -124,14 +125,14 @@ class _RegisterViewState extends State<RegisterView> {
                         controller: passwordController,
                         label: AppLocalizations.of(context)!.password,
                         hint: AppLocalizations.of(context)!.enterYourPassword,
-                        obscureText: isObscure,
+                        obscureText: isPasswordObscure,
                         suffixIcon: IconButton(
                           onPressed: () {
-                            isObscure = !isObscure;
+                            isPasswordObscure = !isPasswordObscure;
                             setState(() {});
                           },
                           icon: Icon(
-                            isObscure ? Icons.visibility_off : Icons.visibility,
+                            isPasswordObscure ? Icons.visibility_off : Icons.visibility,
                           ),
                         ),
                         validator: (value) {
@@ -150,14 +151,14 @@ class _RegisterViewState extends State<RegisterView> {
                         controller: confirmPasswordController,
                         label: AppLocalizations.of(context)!.confirmPassword,
                         hint: AppLocalizations.of(context)!.enterYourConfirmationPassword,
-                        obscureText: isObscure,
+                        obscureText: isPasswordObscure,
                         suffixIcon: IconButton(
                           onPressed: () {
-                            isObscure = !isObscure;
+                            isConfirmationPasswordObscure = !isConfirmationPasswordObscure;
                             setState(() {});
                           },
                           icon: Icon(
-                            isObscure ? Icons.visibility_off : Icons.visibility,
+                            isConfirmationPasswordObscure ? Icons.visibility_off : Icons.visibility,
                           ),
                         ),
                         validator: (value) {
