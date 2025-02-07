@@ -53,7 +53,8 @@ class _TasksListViewState extends State<TasksListView> {
         ),
         Expanded(
           child: StreamBuilder(
-            stream: FirestoreUtils.getRealTimeDataFromFirestore(selectedDate),
+            stream: FirebaseUtils.getRealTimeData(selectedDate),
+            //stream: FirestoreUtils.getRealTimeDataFromFirestore(selectedDate),
             builder: (context, snapshot) {
               if (snapshot.hasError) {
                 return const Text('Error Eccoured');

@@ -1,9 +1,9 @@
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
+import 'package:untitled3/core/network_layer/firestore_utils.dart';
 import 'package:untitled3/core/services/snackbar_service.dart';
 import 'package:untitled3/core/theme/app_theme.dart';
 import 'package:untitled3/core/widgets/custom_text_form_field.dart';
@@ -33,6 +33,7 @@ class _LoginViewState extends State<LoginView> {
   Widget build(BuildContext context) {
     var provider = Provider.of<SettingsProvider>(context);
     var mediaQuery = MediaQuery.of(context).size;
+    var auth = FirebaseAuth.instance;
     return Container(
       decoration: BoxDecoration(
         color: provider.isDark() ? AppTheme.darkColor : AppTheme.lightColor,
@@ -135,7 +136,8 @@ class _LoginViewState extends State<LoginView> {
                         padding: const EdgeInsets.symmetric(vertical: 30.0),
                         child: ElevatedButton(
                           onPressed: () {
-                            login();
+                            login(context, auth);
+                            setState(() {});
                           },
                           style: ElevatedButton.styleFrom(
                             backgroundColor: AppTheme.primaryColor,
@@ -197,34 +199,28 @@ class _LoginViewState extends State<LoginView> {
     );
   }
 
-  void login() async {
+  void login(BuildContext context, FirebaseAuth auth) {
     if (formKey.currentState!.validate()) {
-      try {
-        EasyLoading.show();
-         await FirebaseAuth.instance
-            .signInWithEmailAndPassword(
-                email: emailController.text, password: passwordController.text);
-        EasyLoading.dismiss();
-        SnackBarService.showSuccessMessage(
-            AppLocalizations.of(context)!.youAreLoginSuccessfully);
-        Navigator.pushNamedAndRemoveUntil(
-            context, HomeLayoutView.routeName, (route) => false);
-      } on FirebaseAuthException catch (e) {
-        if (e.code == 'user-not-found') {
-          SnackBarService.showErrorMessage(
-              AppLocalizations.of(context)!.noUserFoundForThatEmail);
-        } else if (e.code == 'wrong-password') {
-          SnackBarService.showErrorMessage(
-              AppLocalizations.of(context)!.wrongPasswordProvidedForThatUser);
-        } else if (e.code == 'invalid-credential') {
-          SnackBarService.showErrorMessage(
-              AppLocalizations.of(context)!.invalidEmailOrPassword);
-        }
-      } catch (e) {
-        SnackBarService.showErrorMessage('there was an error');
-      }
-      EasyLoading.dismiss();
-      setState(() {});
+      EasyLoading.show();
+      FirebaseUtils.singIn(
+              emailController.text, passwordController.text, context)
+          .then(
+        (value) {
+          if (value) {
+            if (auth.currentUser!.emailVerified) {
+              EasyLoading.dismiss();
+              SnackBarService.showSuccessMessage(
+                  AppLocalizations.of(context)!.youAreLoginSuccessfully);
+              Navigator.pushReplacementNamed(context, HomeLayoutView.routeName);
+            } else {
+              EasyLoading.dismiss();
+              SnackBarService.showErrorMessage(
+                  AppLocalizations.of(context)!.verifyYourEmail);
+              FirebaseUtils.signOut();
+            }
+          }
+        },
+      );
     }
   }
 }

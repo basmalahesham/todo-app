@@ -59,5 +59,9 @@
   "theAccountAlreadyExistsForThatEmail" : "The account already exists for that email",
   "noNetworkPleaseCheckInternetConnection" : "no network please check internet connection",
   "taskAddedSuccessfully" : "Task added successfully",
-  "taskAddedFailed" : "Task added failed"
+  "taskAddedFailed" : "Task added failed",
+  "thereWasAnError" : "there was an error",
+  "aVerificationMessageHasBeenSent" : "A verification message has been sent to your E-mail",
+  "verifyYourEmail" : "Verify your E-mail!",
+  "somethingWentWrong" : "something went wrong"
 }

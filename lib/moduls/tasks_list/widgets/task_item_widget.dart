@@ -45,7 +45,8 @@ class _TaskItemWidgetState extends State<TaskItemWidget> {
                     )
                   : BorderRadius.zero,
               onPressed: (context) {
-                FirestoreUtils.deleteData(widget.model);
+                FirebaseUtils.deleteTask(widget.model);
+                //FirestoreUtils.deleteData(widget.model);
               },
               backgroundColor: const Color(0xFFFE4A49),
               foregroundColor: Colors.white,
@@ -103,7 +104,7 @@ class _TaskItemWidgetState extends State<TaskItemWidget> {
                 height: 80,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(4),
-                  color: widget.model.isDone!
+                  color: widget.model.isDone
                       ? Colors.green
                       : AppTheme.primaryColor,
                 ),
@@ -117,10 +118,10 @@ class _TaskItemWidgetState extends State<TaskItemWidget> {
                   SizedBox(
                     width: MediaQuery.sizeOf(context).width * 0.4,
                     child: Text(
-                      widget.model.title ?? '',
+                      widget.model.title,
                       overflow: TextOverflow.ellipsis,
                       style: GoogleFonts.poppins(
-                        color: widget.model.isDone!
+                        color: widget.model.isDone
                             ? Colors.green
                             : AppTheme.primaryColor,
                         fontSize: 18,
@@ -134,7 +135,7 @@ class _TaskItemWidgetState extends State<TaskItemWidget> {
                   SizedBox(
                     width: MediaQuery.sizeOf(context).width * 0.4,
                     child: Text(
-                      widget.model.description ?? '',
+                      widget.model.description,
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
                       style: GoogleFonts.poppins(
@@ -170,10 +171,10 @@ class _TaskItemWidgetState extends State<TaskItemWidget> {
               const Spacer(),
               InkWell(
                 onTap: () {
-                  FirestoreUtils.isDoneTask(widget.model);
+                  FirebaseUtils.isDoneTask(widget.model);
                   setState(() {});
                 },
-                child: widget.model.isDone!
+                child: widget.model.isDone
                     ? Text(
                         AppLocalizations.of(context)!.done,
                         style: const TextStyle(

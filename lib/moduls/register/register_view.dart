@@ -1,9 +1,8 @@
-
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
+import 'package:untitled3/core/network_layer/firestore_utils.dart';
 import 'package:untitled3/core/services/snackbar_service.dart';
 import 'package:untitled3/core/theme/app_theme.dart';
 import 'package:untitled3/core/widgets/custom_text_form_field.dart';
@@ -93,30 +92,31 @@ class _RegisterViewState extends State<RegisterView> {
                         hint: AppLocalizations.of(context)!.enterYourFullName,
                         validator: (value) {
                           if (value == null || value.trim().isEmpty) {
-                            return AppLocalizations.of(context)!.pleaseEnterYourName;
+                            return AppLocalizations.of(context)!
+                                .pleaseEnterYourName;
                           }
                           if (value.trim().length < 6) {
-                            return AppLocalizations.of(context)!.yourNameMustBeAtLeastCharacters;
+                            return AppLocalizations.of(context)!
+                                .yourNameMustBeAtLeastCharacters;
                           }
                           return null;
                         },
-                        /*onChanged: (value){
-                    name = value;
-                    print(name);
-                  },*/
                       ),
                       CustomTextFormField(
                         controller: emailController,
                         label: AppLocalizations.of(context)!.email,
-                        hint: AppLocalizations.of(context)!.enterYourEmailAddress,
+                        hint:
+                            AppLocalizations.of(context)!.enterYourEmailAddress,
                         validator: (value) {
                           if (value == null || value.trim().isEmpty) {
-                            return AppLocalizations.of(context)!.pleaseEnterYourEmailAddress;
+                            return AppLocalizations.of(context)!
+                                .pleaseEnterYourEmailAddress;
                           }
                           var regex = RegExp(
                               r"(^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9]+\.[a-zA-Z0-9-.]+$)");
                           if (!regex.hasMatch(value)) {
-                            return AppLocalizations.of(context)!.enterValidEmailAddress;
+                            return AppLocalizations.of(context)!
+                                .enterValidEmailAddress;
                           }
                           return null;
                         },
@@ -132,17 +132,21 @@ class _RegisterViewState extends State<RegisterView> {
                             setState(() {});
                           },
                           icon: Icon(
-                            isPasswordObscure ? Icons.visibility_off : Icons.visibility,
+                            isPasswordObscure
+                                ? Icons.visibility_off
+                                : Icons.visibility,
                           ),
                         ),
                         validator: (value) {
                           if (value == null || value.trim().isEmpty) {
-                            return AppLocalizations.of(context)!.pleaseEnterYourPassword;
+                            return AppLocalizations.of(context)!
+                                .pleaseEnterYourPassword;
                           }
                           var regex = RegExp(
                               r"(?=^.{8,}$)(?=.*[!@#$%^&*]+)(?![.\\n])(?=.*[A-Z])(?=.*[a-z]).*$");
                           if (!regex.hasMatch(value)) {
-                            return AppLocalizations.of(context)!.enterValidPassword;
+                            return AppLocalizations.of(context)!
+                                .enterValidPassword;
                           }
                           return null;
                         },
@@ -150,23 +154,29 @@ class _RegisterViewState extends State<RegisterView> {
                       CustomTextFormField(
                         controller: confirmPasswordController,
                         label: AppLocalizations.of(context)!.confirmPassword,
-                        hint: AppLocalizations.of(context)!.enterYourConfirmationPassword,
+                        hint: AppLocalizations.of(context)!
+                            .enterYourConfirmationPassword,
                         obscureText: isPasswordObscure,
                         suffixIcon: IconButton(
                           onPressed: () {
-                            isConfirmationPasswordObscure = !isConfirmationPasswordObscure;
+                            isConfirmationPasswordObscure =
+                                !isConfirmationPasswordObscure;
                             setState(() {});
                           },
                           icon: Icon(
-                            isConfirmationPasswordObscure ? Icons.visibility_off : Icons.visibility,
+                            isConfirmationPasswordObscure
+                                ? Icons.visibility_off
+                                : Icons.visibility,
                           ),
                         ),
                         validator: (value) {
                           if (value == null || value.trim().isEmpty) {
-                            return AppLocalizations.of(context)!.pleaseEnterYourConfirmationPassword;
+                            return AppLocalizations.of(context)!
+                                .pleaseEnterYourConfirmationPassword;
                           }
                           if (passwordController.text != value) {
-                            return AppLocalizations.of(context)!.enterCorrectPasswordPasswordNotMatch;
+                            return AppLocalizations.of(context)!
+                                .enterCorrectPasswordPasswordNotMatch;
                           }
                           return null;
                         },
@@ -175,7 +185,8 @@ class _RegisterViewState extends State<RegisterView> {
                         padding: const EdgeInsets.symmetric(vertical: 30.0),
                         child: ElevatedButton(
                           onPressed: () {
-                            register();
+                            register(context);
+                            setState(() {});
                           },
                           style: ElevatedButton.styleFrom(
                             backgroundColor: AppTheme.primaryColor,
@@ -232,36 +243,24 @@ class _RegisterViewState extends State<RegisterView> {
     );
   }
 
-  void register() async {
-    // print(nameController.text);
-    // formKey.currentState?.validate();
+  void register(BuildContext context) {
     if (formKey.currentState!.validate()) {
-      // authenticate with firebase
-      try {
-        EasyLoading.show();
-            await FirebaseAuth.instance.createUserWithEmailAndPassword(
-          email: emailController.text,
-          password: passwordController.text,
-        );
-        EasyLoading.dismiss();
-        SnackBarService.showSuccessMessage(
-            AppLocalizations.of(context)!.theAccountWasRegisteredSuccessfully);
-        Navigator.pop(context);
-      } on FirebaseAuthException catch (e) {
-        if (e.code == 'weak-password') {
-          SnackBarService.showErrorMessage(
-              AppLocalizations.of(context)!.thePasswordProvidedIsTooWeak);
-        } else if (e.code == 'email-already-in-use') {
-          SnackBarService.showErrorMessage(
-              AppLocalizations.of(context)!.theAccountAlreadyExistsForThatEmail);
-        }
-      } catch (e) {
-        SnackBarService.showErrorMessage(
-            AppLocalizations.of(context)!.noNetworkPleaseCheckInternetConnection);
-        print(e);
-      }
-      EasyLoading.dismiss();
-      setState(() {});
+      EasyLoading.show();
+      FirebaseUtils.createAccount(
+        nameController.text,
+        emailController.text,
+        passwordController.text,
+        context,
+      ).then(
+        (value) {
+          if (value) {
+            EasyLoading.dismiss();
+            SnackBarService.showSuccessMessage(
+                AppLocalizations.of(context)!.aVerificationMessageHasBeenSent);
+            Navigator.pop(context);
+          }
+        },
+      );
     }
   }
 }

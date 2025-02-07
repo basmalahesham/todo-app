@@ -25,6 +25,7 @@ class _AddTaskBottomSheetState extends State<AddTaskBottomSheet> {
 
   //TextEditingController dueDateController = TextEditingController();
   DateTime selectedDate = DateTime.now();
+  //var valid = true;
 
   @override
   Widget build(BuildContext context) {
@@ -82,7 +83,8 @@ class _AddTaskBottomSheetState extends State<AddTaskBottomSheet> {
                       return null;
                     }
                   },
-                  style: TextStyle(color: provider.isDark() ? Colors.white : Colors.black),
+                  style: TextStyle(
+                      color: provider.isDark() ? Colors.white : Colors.black),
                   decoration: InputDecoration(
                     hintText: AppLocalizations.of(context)!.enterYourTaskTitle,
                     hintStyle: TextStyle(
@@ -134,7 +136,8 @@ class _AddTaskBottomSheetState extends State<AddTaskBottomSheet> {
                   },
                   minLines: 2,
                   maxLines: 2,
-                  style: TextStyle(color: provider.isDark() ? Colors.white : Colors.black),
+                  style: TextStyle(
+                      color: provider.isDark() ? Colors.white : Colors.black),
                   decoration: InputDecoration(
                     hintText:
                         AppLocalizations.of(context)!.enterYourTaskDescription,
@@ -198,6 +201,29 @@ class _AddTaskBottomSheetState extends State<AddTaskBottomSheet> {
                   ),
                   onPressed: () {
                     addTask();
+                    /*if (formKey.currentState!.validate()) {
+                      setState(
+                            () => valid = true,
+                      );
+                      EasyLoading.show();
+                      FirebaseUtils.addTaskToFirestore(
+                        TaskModel(
+                          title: titleController.text.trim(),
+                          description: descriptionController.text.trim(),
+                          selectedDate: externalDateOnly(selectedDate),
+                        ),
+                      ).then(
+                            (value) {
+                          //provider.changeDate(selectedDate);
+                          Navigator.pop(context);
+                          EasyLoading.dismiss();
+                        },
+                      );
+                    } else {
+                      setState(
+                            () => valid = false,
+                      );
+                    }*/
                   },
                   child: Text(
                     AppLocalizations.of(context)!.addTask,
@@ -240,14 +266,12 @@ class _AddTaskBottomSheetState extends State<AddTaskBottomSheet> {
         title: titleController.text,
         description: descriptionController.text,
         isDone: false,
-        dateTime:
-            (MyDateTime.externalDateOnly(selectedDate)).millisecondsSinceEpoch,
-        //dateTime: selectedDate.millisecondsSinceEpoch,
-        //dateTime: MyDateTime.externalDateOnly(selectedDate),
+        selectedDate: externalDateOnly(selectedDate),
+        //dateTime: (externalDateOnly(selectedDate)).millisecondsSinceEpoch,
       );
       try {
         EasyLoading.show();
-        await FirestoreUtils.addTask(taskModel);
+        await FirebaseUtils.addTaskToFirestore(taskModel);
         EasyLoading.dismiss();
         SnackBarService.showSuccessMessage(
             AppLocalizations.of(context)!.taskAddedSuccessfully);

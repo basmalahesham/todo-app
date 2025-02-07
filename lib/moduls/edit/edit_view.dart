@@ -208,13 +208,13 @@ class _EditViewState extends State<EditView> {
                     selectedDate = await showDatePicker(
                             context: context,
                             initialDate: DateTime.fromMillisecondsSinceEpoch(
-                                args.dateTime!),
+                                args.selectedDate as int),
                             firstDate: DateTime.now(),
                             lastDate: DateTime.now()
                                 .add(const Duration(days: 365))) ??
                         DateTime.now();
                     setState(() {
-                      args.dateTime = selectedDate.millisecondsSinceEpoch;
+                      args.selectedDate = selectedDate.millisecondsSinceEpoch as DateTime;
                     });
                   },
                   child: Text(
@@ -233,7 +233,7 @@ class _EditViewState extends State<EditView> {
                 ),
                 ElevatedButton(
                   onPressed: () {
-                    FirestoreUtils.updateTask(args);
+                    FirebaseUtils.updateTask(args);
                     Navigator.pop(context);
                   },
                   style: ElevatedButton.styleFrom(

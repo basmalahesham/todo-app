@@ -59,5 +59,9 @@
   "theAccountAlreadyExistsForThatEmail": "الحساب موجود بالفعل لهذا البريد الإلكتروني",
   "noNetworkPleaseCheckInternetConnection": "لا يوجد اتصال بالشبكة، يرجى التحقق من اتصال الإنترنت",
   "taskAddedSuccessfully": "تمت إضافة المهمة بنجاح",
-  "taskAddedFailed": "فشل إضافة المهمة"
+  "taskAddedFailed": "فشل إضافة المهمة",
+  "thereWasAnError": "حدث خطأ",
+  "aVerificationMessageHasBeenSent": "تم إرسال رسالة تحقق إلى بريدك الإلكتروني",
+  "verifyYourEmail": "تحقق من بريدك الإلكتروني!",
+  "somethingWentWrong": "حدث خطأ ما"
 }
