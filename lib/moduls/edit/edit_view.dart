@@ -4,6 +4,7 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:untitled3/core/network_layer/firestore_utils.dart';
 import 'package:untitled3/core/theme/app_theme.dart';
+import 'package:untitled3/core/utils/my_date_time.dart';
 import 'package:untitled3/models/task_model.dart';
 import 'package:untitled3/provider/settings_provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -207,14 +208,13 @@ class _EditViewState extends State<EditView> {
                   onTap: () async {
                     selectedDate = await showDatePicker(
                             context: context,
-                            initialDate: DateTime.fromMillisecondsSinceEpoch(
-                                args.selectedDate as int),
+                            initialDate: args.selectedDate,
                             firstDate: DateTime.now(),
                             lastDate: DateTime.now()
                                 .add(const Duration(days: 365))) ??
                         DateTime.now();
                     setState(() {
-                      args.selectedDate = selectedDate.millisecondsSinceEpoch as DateTime;
+                      args.selectedDate = externalDateOnly(selectedDate);
                     });
                   },
                   child: Text(
