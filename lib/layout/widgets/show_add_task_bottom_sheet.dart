@@ -31,211 +31,214 @@ class _AddTaskBottomSheetState extends State<AddTaskBottomSheet> {
   Widget build(BuildContext context) {
     var mediaQuery = MediaQuery.of(context).size;
     var provider = Provider.of<SettingsProvider>(context);
-    return Container(
-      decoration: BoxDecoration(
-        color: provider.isDark() ? const Color(0xFF141922) : Colors.white,
-        borderRadius: const BorderRadius.only(
-          topLeft: Radius.circular(20),
-          topRight: Radius.circular(20),
+    return SizedBox(
+      height: 600,
+      child: Container(
+        decoration: BoxDecoration(
+          color: provider.isDark() ? const Color(0xFF141922) : Colors.white,
+          borderRadius: const BorderRadius.only(
+            topLeft: Radius.circular(20),
+            topRight: Radius.circular(20),
+          ),
         ),
-      ),
-      child: Padding(
-        padding: EdgeInsets.only(top: 14, right: 20,left: 20,bottom: 14 + MediaQuery.of(context).viewInsets.bottom),
-        child: Form(
-          key: formKey,
-          child: Padding(
-            padding: const EdgeInsets.only(bottom: 20.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                Text(
-                  AppLocalizations.of(context)!.addNewTask,
-                  textAlign: TextAlign.center,
-                  style: GoogleFonts.poppins(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 18,
-                    color: provider.isDark() ? Colors.white : Colors.black,
-                  ),
-                ),
-                SizedBox(
-                  height: mediaQuery.height * 0.05,
-                ),
-                Text(
-                  AppLocalizations.of(context)!.title,
-                  style: GoogleFonts.poppins(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 17,
-                    color: provider.isDark() ? Colors.white : Colors.black,
-                  ),
-                ),
-                SizedBox(
-                  height: mediaQuery.height * 0.01,
-                ),
-                TextFormField(
-                  controller: titleController,
-                  validator: (value) {
-                    if (value == null || value.trim().isEmpty) {
-                      return AppLocalizations.of(context)!.enterYourTaskTitle;
-                    } else if (value.length < 8) {
-                      return AppLocalizations.of(context)!
-                          .titleMustBeAtLeastCharacters;
-                    } else {
-                      return null;
-                    }
-                  },
-                  style: TextStyle(
-                      color: provider.isDark() ? Colors.white : Colors.black),
-                  decoration: InputDecoration(
-                    hintText: AppLocalizations.of(context)!.enterYourTaskTitle,
-                    hintStyle: TextStyle(
-                      color: provider.isDark() ? Colors.white : Colors.black,
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10),
-                      borderSide: const BorderSide(
-                        color: Colors.grey,
-                      ),
-                    ),
-                    enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10),
-                      borderSide: const BorderSide(
-                        color: Colors.grey,
-                      ),
-                    ),
-                    errorBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10),
-                      borderSide: const BorderSide(
-                        color: Colors.red,
-                      ),
-                    ),
-                  ),
-                ),
-                SizedBox(
-                  height: mediaQuery.height * 0.03,
-                ),
-                Text(
-                  AppLocalizations.of(context)!.description,
-                  style: GoogleFonts.poppins(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 17,
-                    color: provider.isDark() ? Colors.white : Colors.black,
-                  ),
-                ),
-                SizedBox(
-                  height: mediaQuery.height * 0.01,
-                ),
-                TextFormField(
-                  controller: descriptionController,
-                  validator: (value) {
-                    if (value == null || value.trim().isEmpty) {
-                      return AppLocalizations.of(context)!
-                          .descriptionCantBeEmpty;
-                    } else {
-                      return null;
-                    }
-                  },
-                 // minLines: 2,
-                  maxLines: 4,
-                  style: TextStyle(
-                      color: provider.isDark() ? Colors.white : Colors.black),
-                  decoration: InputDecoration(
-                    hintText:
-                        AppLocalizations.of(context)!.enterYourTaskDescription,
-                    hintStyle: TextStyle(
-                      color: provider.isDark() ? Colors.white : Colors.black,
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10),
-                      borderSide: const BorderSide(
-                        color: Colors.grey,
-                      ),
-                    ),
-                    enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10),
-                      borderSide: const BorderSide(
-                        color: Colors.grey,
-                      ),
-                    ),
-                    errorBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10),
-                      borderSide: const BorderSide(
-                        color: Colors.red,
-                      ),
-                    ),
-                  ),
-                ),
-                SizedBox(
-                  height: mediaQuery.height * 0.05,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    Text(
-                      '${AppLocalizations.of(context)!.selectTime} :',
-                      style: GoogleFonts.poppins(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 17,
-                        color: provider.isDark() ? Colors.white : Colors.black,
-                      ),
-                    ),
-                    InkWell(
-                      onTap: () {
-                        selectDateTime();
-                      },
-                      child: Text(
-                        (DateFormat.yMMMEd().format(selectedDate)),
-                        //"${selectedDate.day} - ${selectedDate.month} - ${selectedDate.year}",
-                        textAlign: TextAlign.center,
-                        style: GoogleFonts.poppins(
-                          fontWeight: FontWeight.w500,
-                          fontSize: 16,
-                          color: AppTheme.primaryColor,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-                const Spacer(),
-                ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: AppTheme.primaryColor,
-                  ),
-                  onPressed: () {
-                    addTask();
-                    /*if (formKey.currentState!.validate()) {
-                      setState(
-                            () => valid = true,
-                      );
-                      EasyLoading.show();
-                      FirebaseUtils.addTaskToFirestore(
-                        TaskModel(
-                          title: titleController.text.trim(),
-                          description: descriptionController.text.trim(),
-                          selectedDate: externalDateOnly(selectedDate),
-                        ),
-                      ).then(
-                            (value) {
-                          //provider.changeDate(selectedDate);
-                          Navigator.pop(context);
-                          EasyLoading.dismiss();
-                        },
-                      );
-                    } else {
-                      setState(
-                            () => valid = false,
-                      );
-                    }*/
-                  },
-                  child: Text(
-                    AppLocalizations.of(context)!.addTask,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 14,vertical: 20),
+          child: Form(
+            key: formKey,
+            child: Padding(
+              padding: const EdgeInsets.only(bottom: 20.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  Text(
+                    AppLocalizations.of(context)!.addNewTask,
+                    textAlign: TextAlign.center,
                     style: GoogleFonts.poppins(
                       fontWeight: FontWeight.bold,
-                      fontSize: 20,
-                      color: Colors.white,
+                      fontSize: 18,
+                      color: provider.isDark() ? Colors.white : Colors.black,
                     ),
                   ),
-                ),
-              ],
+                  SizedBox(
+                    height: mediaQuery.height * 0.05,
+                  ),
+                  Text(
+                    AppLocalizations.of(context)!.title,
+                    style: GoogleFonts.poppins(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 17,
+                      color: provider.isDark() ? Colors.white : Colors.black,
+                    ),
+                  ),
+                  SizedBox(
+                    height: mediaQuery.height * 0.01,
+                  ),
+                  TextFormField(
+                    controller: titleController,
+                    validator: (value) {
+                      if (value == null || value.trim().isEmpty) {
+                        return AppLocalizations.of(context)!.enterYourTaskTitle;
+                      } else if (value.length < 8) {
+                        return AppLocalizations.of(context)!
+                            .titleMustBeAtLeastCharacters;
+                      } else {
+                        return null;
+                      }
+                    },
+                    style: TextStyle(
+                        color: provider.isDark() ? Colors.white : Colors.black),
+                    decoration: InputDecoration(
+                      hintText: AppLocalizations.of(context)!.enterYourTaskTitle,
+                      hintStyle: TextStyle(
+                        color: provider.isDark() ? Colors.white : Colors.black,
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                        borderSide: const BorderSide(
+                          color: Colors.grey,
+                        ),
+                      ),
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                        borderSide: const BorderSide(
+                          color: Colors.grey,
+                        ),
+                      ),
+                      errorBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                        borderSide: const BorderSide(
+                          color: Colors.red,
+                        ),
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    height: mediaQuery.height * 0.03,
+                  ),
+                  Text(
+                    AppLocalizations.of(context)!.description,
+                    style: GoogleFonts.poppins(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 17,
+                      color: provider.isDark() ? Colors.white : Colors.black,
+                    ),
+                  ),
+                  SizedBox(
+                    height: mediaQuery.height * 0.01,
+                  ),
+                  TextFormField(
+                    controller: descriptionController,
+                    validator: (value) {
+                      if (value == null || value.trim().isEmpty) {
+                        return AppLocalizations.of(context)!
+                            .descriptionCantBeEmpty;
+                      } else {
+                        return null;
+                      }
+                    },
+                   // minLines: 2,
+                    maxLines: 4,
+                    style: TextStyle(
+                        color: provider.isDark() ? Colors.white : Colors.black),
+                    decoration: InputDecoration(
+                      hintText:
+                          AppLocalizations.of(context)!.enterYourTaskDescription,
+                      hintStyle: TextStyle(
+                        color: provider.isDark() ? Colors.white : Colors.black,
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                        borderSide: const BorderSide(
+                          color: Colors.grey,
+                        ),
+                      ),
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                        borderSide: const BorderSide(
+                          color: Colors.grey,
+                        ),
+                      ),
+                      errorBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                        borderSide: const BorderSide(
+                          color: Colors.red,
+                        ),
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    height: mediaQuery.height * 0.05,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      Text(
+                        '${AppLocalizations.of(context)!.selectTime} :',
+                        style: GoogleFonts.poppins(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 17,
+                          color: provider.isDark() ? Colors.white : Colors.black,
+                        ),
+                      ),
+                      InkWell(
+                        onTap: () {
+                          selectDateTime();
+                        },
+                        child: Text(
+                          (DateFormat.yMMMEd().format(selectedDate)),
+                          //"${selectedDate.day} - ${selectedDate.month} - ${selectedDate.year}",
+                          textAlign: TextAlign.center,
+                          style: GoogleFonts.poppins(
+                            fontWeight: FontWeight.w500,
+                            fontSize: 16,
+                            color: AppTheme.primaryColor,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  const Spacer(),
+                  ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: AppTheme.primaryColor,
+                    ),
+                    onPressed: () {
+                      addTask();
+                      /*if (formKey.currentState!.validate()) {
+                        setState(
+                              () => valid = true,
+                        );
+                        EasyLoading.show();
+                        FirebaseUtils.addTaskToFirestore(
+                          TaskModel(
+                            title: titleController.text.trim(),
+                            description: descriptionController.text.trim(),
+                            selectedDate: externalDateOnly(selectedDate),
+                          ),
+                        ).then(
+                              (value) {
+                            //provider.changeDate(selectedDate);
+                            Navigator.pop(context);
+                            EasyLoading.dismiss();
+                          },
+                        );
+                      } else {
+                        setState(
+                              () => valid = false,
+                        );
+                      }*/
+                    },
+                    child: Text(
+                      AppLocalizations.of(context)!.addTask,
+                      style: GoogleFonts.poppins(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 20,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
         ),
