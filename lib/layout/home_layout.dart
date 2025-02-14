@@ -67,7 +67,7 @@ class _HomeLayoutViewState extends State<HomeLayoutView> {
   showAddTasksBottomSheet() {
     showModalBottomSheet(
       context: context,
-      //isScrollControlled: true,
+      isScrollControlled: true,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.only(
           topLeft: Radius.circular(20),

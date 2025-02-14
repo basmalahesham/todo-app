@@ -40,7 +40,7 @@ class _AddTaskBottomSheetState extends State<AddTaskBottomSheet> {
         ),
       ),
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 20),
+        padding: EdgeInsets.only(top: 14, right: 20,left: 20,bottom: 14 + MediaQuery.of(context).viewInsets.bottom),
         child: Form(
           key: formKey,
           child: Padding(
@@ -58,7 +58,7 @@ class _AddTaskBottomSheetState extends State<AddTaskBottomSheet> {
                   ),
                 ),
                 SizedBox(
-                  height: mediaQuery.height * 0.001,
+                  height: mediaQuery.height * 0.05,
                 ),
                 Text(
                   AppLocalizations.of(context)!.title,
@@ -69,7 +69,7 @@ class _AddTaskBottomSheetState extends State<AddTaskBottomSheet> {
                   ),
                 ),
                 SizedBox(
-                  height: mediaQuery.height * 0.001,
+                  height: mediaQuery.height * 0.01,
                 ),
                 TextFormField(
                   controller: titleController,
@@ -111,7 +111,7 @@ class _AddTaskBottomSheetState extends State<AddTaskBottomSheet> {
                   ),
                 ),
                 SizedBox(
-                  height: mediaQuery.height * 0.01,
+                  height: mediaQuery.height * 0.03,
                 ),
                 Text(
                   AppLocalizations.of(context)!.description,
@@ -122,7 +122,7 @@ class _AddTaskBottomSheetState extends State<AddTaskBottomSheet> {
                   ),
                 ),
                 SizedBox(
-                  height: mediaQuery.height * 0.001,
+                  height: mediaQuery.height * 0.01,
                 ),
                 TextFormField(
                   controller: descriptionController,
@@ -134,8 +134,8 @@ class _AddTaskBottomSheetState extends State<AddTaskBottomSheet> {
                       return null;
                     }
                   },
-                  minLines: 2,
-                  maxLines: 2,
+                 // minLines: 2,
+                  maxLines: 4,
                   style: TextStyle(
                       color: provider.isDark() ? Colors.white : Colors.black),
                   decoration: InputDecoration(
@@ -165,9 +165,10 @@ class _AddTaskBottomSheetState extends State<AddTaskBottomSheet> {
                   ),
                 ),
                 SizedBox(
-                  height: mediaQuery.height * 0.001,
+                  height: mediaQuery.height * 0.05,
                 ),
                 Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     Text(
                       '${AppLocalizations.of(context)!.selectTime} :',
